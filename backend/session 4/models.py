@@ -13,5 +13,5 @@ class User(db.Model):
 class task (db.Model):
     id = db.Column(db.Integer,primary_key=True)
     title = db.Column (db.String (100), nullable=False) 
-    content = db.Column (db.String (500), nullable = False )
-    deadline = db.Column (db.Boolean) 
+    # content = db.Column (db.String (500), nullable = False )
+    # deadline = db.Column (db.Boolean) 
