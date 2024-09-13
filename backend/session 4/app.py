@@ -45,7 +45,5 @@ def login():
     elif user.password != password:
         return "Incorrect password or email"
     return "Logged in successfully"
-
-
 if __name__ == "__main__":
     app.run(debug=True)
