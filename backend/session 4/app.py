@@ -3,7 +3,7 @@ from models import db, User,task
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users_data.db"
 db.init_app(app)
 
 with app.app_context():
@@ -15,7 +15,7 @@ def registration():
     if request.method == "POST":
         json = request.get_json()
     user = User(
-        email=json["email"], password=json["password"], username=json["username"]
+        email=json["email"], password=json["password"], username=json["username"], age=json["age"], school=json["school"], gender=json["gender"]
     )
 
     user_db_email = User.query.filter_by(email=user.email).first()
@@ -25,10 +25,11 @@ def registration():
     if not (user_db_email is None):
         return "Email already saved"
     if not (user_db_email_username is None):
-        return "Username is already saved"
+        return "Username is already saved "
     db.session.add(user)
     db.session.commit()
     session.get(user)
+    print(user.age)
     return "Signed up successfully"
 
 
