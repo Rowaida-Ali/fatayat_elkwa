@@ -1,25 +1,23 @@
-from flask import Flask,request,session
+from flask import Flask,request
 from models import task,db
 todo=Flask(__name__)
 
-todo.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///task.db"
+todo.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///yourtask.db"
 db.init_app(todo)
 
 with todo.app_context():
     db.create_all()
 
-@todo.route("/add",methods=["GET","POST"])
+@todo.route("/add_your",methods=["GET","POST"])
 def add():
     if request.method=="POST":
         json=request.get_json()
-        # add =json["add"]
         work = task(
-            add=json["add"]
+            your_work=json["your_work"]
             )
-    db.session.add(add)
-    db.session.commit()
-    session.get(work)
-    return "received"
+        db.session.add(work)
+        db.session.commit()
+        return "received"
 
 
 
