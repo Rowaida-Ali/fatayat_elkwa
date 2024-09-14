@@ -1,5 +1,5 @@
-from flask import Flask, request, session
-from models import db, User,task
+from flask import Flask, request, session ,jsonify
+from models import db, User
 
 app = Flask(__name__)
 
@@ -29,7 +29,6 @@ def registration():
     db.session.add(user)
     db.session.commit()
     session.get(user)
-    print(user.age)
     return "Signed up successfully"
 
 
@@ -46,6 +45,23 @@ def login():
     elif user.password != password:
         return "Incorrect password or email"
     return "Logged in successfully"
-if __name__ == "__main__":
-    app.run(debug=True)
 
+
+@app.route('/search',methods=["GET","POST"])
+def search():
+    if request.method=="GET":
+        json=request.get_json()
+        username=json["username"]
+    user=User.query.filter_by(username=username).first()
+    if not(user is None):
+        return jsonify({
+            "age":user.age,
+            "gender":user.gender,
+            "school":user.school,
+            "email":user.email,
+        })
+     
+    else:
+        return"user not found"    
+if __name__ == "__main__":
+    app.run(debug=True)        
