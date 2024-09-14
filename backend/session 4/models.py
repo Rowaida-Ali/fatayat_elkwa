@@ -12,6 +12,7 @@ class User(db.Model):
 
 class task (db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    your_work = db.Column (db.String (100), nullable=False) 
+    your_work = db.Column (db.String (100), nullable=False)
+    completed = db.Column(db.BOOLEAN,default=False) 
     # content = db.Column (db.String (500), nullable = False )
     # deadline = db.Column (db.Boolean) 
