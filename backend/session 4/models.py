@@ -19,3 +19,10 @@ class task (db.Model):
     completed = db.Column(db.BOOLEAN,default=False) 
     # content = db.Column (db.String (500), nullable = False )
     # deadline = db.Column (db.Boolean) 
+
+
+class Note(db.Model):
+    id = db.Column(db.Integer,primary_key=True) 
+    your_note=db.Column(db.Text)
+    secret=db.Column(db.Boolean , default=False) #FALSE= PRIVATE True=public
+    name=db.Column(db.String(50),nullable=False)
