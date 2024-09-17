@@ -1,46 +1,44 @@
 from flask import Flask, request, session, jsonify
-from models import Note, db
+from models import Note, db, User
 
-notes = Flask(__name__)
+app = Flask(__name__)
 
-notes.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///Your_Notes.db"
-db.init_app(notes)
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///Your_Notes.db"
+# db.init_app(app)
 
-with notes.app_context():
-    db.create_all()
-
-
-@notes.route("/take_note", methods=["POST"])
-def taking_notes():
-    # if request.method=="POST":
-    json = request.get_json()
-    note = Note(your_note=json["your_note"], secret=json["secret"], name=json["name"])
-    db.session.add(note)
-    db.session.commit()
-    return "note added"
+# with app.app_context():
+#     db.create_all()
 
 
-@notes.route("/get_note_name", methods=["GET"])
-def view():
-    json = request.get_json()
-    secret = json["secret"]
-    name = json["name"]
-    note = Note.query.filter_by(name=name).first()
-    note1 = Note.query.filter_by(secret=secret).first()
-    view_all = Note.query.all()
-    # if note1==False:
-    return jsonify({"all your notes": note.your_note})
+# @app.route("/take_note", methods=["POST"])
+# def taking_notes():
+#     json = request.get_json()
+#     username=json["username"]
+#     note = Note(your_note=json["your_note"], secret=json["secret"],user_id=user.id)
+#     user = User.query.filter_by(username=username).first()
+#     db.session.add(note)
+#     db.session.commit()
+#     return jsonify("Note added")
 
 
-@notes.route("/get_all_notes", methods=["GET"])
-def get_notes():
-    view_all = Note.query.all()
-    print(view_all)
-    # if note1==False:
-    lst = [note.your_note for note in view_all]
-    return jsonify({"all your notes": lst})
-    # return note.your_note
+# @app.route("/get_note_name", methods=["GET"])
+# def view():
+#     json = request.get_json()
+#     secret = json["secret"]
+#     username = json["name"]
+#     user = User.query.filter_by(username=username).first()
+#     note = Note.query.filter_by(secret=secret,user_id=user.id).first()
+#     return jsonify({"all your notes": note.your_note})
+
+
+# @app.route("/get_all_notes", methods=["GET"])
+# def get_notes():
+#     json = request.get_json()
+#     username = json["name"]
+#     view_all = Note.query.filter_by(secret=True).all()
+#     lst = [note.your_note for note in view_all]
+#     return jsonify({"all your notes": lst})
 
 
 if __name__ == "__main__":
-    notes.run(debug=True)
+    app.run(debug=True)

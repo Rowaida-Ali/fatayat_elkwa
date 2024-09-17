@@ -13,17 +13,17 @@ _To_do lsit: List for students to manage their tasks and  it has many routes (Ad
 -Orm used : Sqlachemy
 
 # 3.Endpoints:
-    1.Sign_up:
-    Method:POST
-    Endpoint=/signup
+1. Sign_up:
+Method:POST
+Endpoint=`/signup`
 
-    2.Search by username:
-    Method:GET
-    Endpoint:search
+2. Search by username:
+Method:GET
+Endpoint:search
 
-    3.Login:
-    Method:POST
-    Endpoint=/login
+3. Login:
+Method:POST
+Endpoint=/login
 
 TO_DO LIST:
 
