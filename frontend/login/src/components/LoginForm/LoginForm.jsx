@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './LoginForm.css';
 import { FaLock} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-function LoginForm() {
+
+const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
    
@@ -22,9 +23,6 @@ function LoginForm() {
         console.error('Error:', error);
       }
    }
-};
-const LoginForm = () => {
-
     return (
         <div className='wrapper'>
                 <h1>LogIn</h1>
