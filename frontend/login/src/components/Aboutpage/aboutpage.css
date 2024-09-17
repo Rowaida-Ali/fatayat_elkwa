@@ -1,0 +1,18 @@
+.aboutpage{
+    width: 800px;
+    height: 400px;
+    background: #fca389;
+    color: #fff;
+    border-radius: 10px ;
+    padding: 30px 40px;
+}
+.aboutpage h1 {
+    font-size: 36px;
+    text-align: center;
+}
+.aboutpage .info{
+    font-size:x-large;
+    font-weight: lighter;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
