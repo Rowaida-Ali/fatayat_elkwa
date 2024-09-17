@@ -2,17 +2,46 @@ import React from 'react'
 import './LoginForm.css';
 import { FaLock} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+function LoginForm() {
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+   
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      try {
+        const response = await fetch('http://localhost:5000/login ', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ password,email }),
+        });
+        const data = await response.json();
+        console.log(data);
+     } catch (error) {
+        console.error('Error:', error);
+      }
+   }
+};
 const LoginForm = () => {
+
     return (
         <div className='wrapper'>
-            <form action=''>
                 <h1>LogIn</h1>
+                <form onSubmit={handleSubmit}>
                 <div className="input-box">
-                    <input type="text" placeholder='Email' required/>
+                    <input type="text" placeholder='Email' required 
+                    value={email}
+                    onChange={(e) => 
+                setEmail(e.target.value) }       />
+                    
                     <MdEmail className='icon' />
                 </div>
                 <div className="input-box">
-                    <input type="password" placeholder='password' required/>
+                    <input type="password" placeholder='password' required 
+                    value={password}
+                    onChange={(e) => 
+                setPassword(e.target.value)}/>
                     <FaLock className='icon'/>
                 </div>
                 <div className="remember-forget">
@@ -26,4 +55,5 @@ const LoginForm = () => {
         </div>
     );
 };
+
 export default LoginForm;
