@@ -46,7 +46,7 @@ const LoginForm = () => {
                 </div>
                 <div className="remember-forget">
                     <label><input type="checkbox"/>Remember me </label>
-                    <a href='#'>Forget password?</a>
+                    {/* <a href='#'>Forget password?</a> */}
                 </div>
                 <button type="submit">LogIn</button>
                 <div className="register-link"></div>
