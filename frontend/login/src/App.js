@@ -3,7 +3,8 @@ import './App.css';
 import LoginForm from './components/LoginForm/LoginForm';
 import Aboutpage from './components/Aboutpage/aboutpage';
 import SignupForm from './components/SignupForm/SignupForm';
-import HomePage from './components/Homepage/homepage'
+import HomePage from './components/Homepage/homepage';
+import StudingAbroad from './components/StudingAbroad/StudigAbroad'
 import{BrowserRouter,Routes,Route} from 'react-router-dom';
 
 export default function App(){ 
@@ -17,6 +18,7 @@ export default function App(){
         <Route path="/aboutpage" element={<Aboutpage />}/>
         <Route path="/signup" element={<SignupForm />}/>
         <Route path='/home' element={<HomePage />}/>
+        <Route path="/studingabroad" element={<StudingAbroad />}/>
       </Routes>
       </BrowserRouter>
     </div>
