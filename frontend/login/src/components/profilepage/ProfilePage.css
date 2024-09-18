@@ -1,0 +1,91 @@
+.profile-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.profile-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fca389;
+  color: #fff;
+  width: 300px;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.profile-picture {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.image-placeholder {
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
+  border-radius: 50%;
+  line-height: 150px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.image-placeholder:hover {
+  background-color: #ff9f9f;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.profile-picture:hover .image {
+  transform: scale(1.1);
+}
+
+.edit-button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #555;
+  transform: scale(1.1);
+}
+.profile-card p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.edit-page input, .edit-page select, .edit-page textarea {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.edit-page button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
