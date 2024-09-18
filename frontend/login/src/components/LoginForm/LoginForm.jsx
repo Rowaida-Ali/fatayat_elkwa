@@ -27,6 +27,7 @@ const LoginForm = () => {
         <div className='wrapper'>
                 <h1>LogIn</h1>
                 <form onSubmit={handleSubmit}>
+                
                 <div className="input-box">
                     <input type="text" placeholder='Email' required 
                     value={email}
@@ -35,6 +36,7 @@ const LoginForm = () => {
                     
                     <MdEmail className='icon' />
                 </div>
+              
                 <div className="input-box">
                     <input type="password" placeholder='password' required 
                     value={password}

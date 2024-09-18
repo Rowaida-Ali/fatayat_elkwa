@@ -1,5 +1,5 @@
 .signup-wrapper{
-    width: 420px;
+    width: 600px;
     margin: auto;
     background: #fca389;
     color: #fff;
@@ -31,6 +31,9 @@
 .input-box input ::placeholder{
     color: #fff;
 }
+.signup-wrapper .update{
+    text-align:left;
+}
 .signup-wrapper button{ 
     width: 100%;
     height: 45px;
@@ -43,6 +46,7 @@
     font-size: 16px;
     color: #333;
     font-weight: 700;
+    margin-bottom: 20px;
 }
 .signup-wrapper .Login-link{
     font-size: 14.5px;
