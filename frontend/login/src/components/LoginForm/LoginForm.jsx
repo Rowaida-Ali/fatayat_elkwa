@@ -48,7 +48,7 @@ const LoginForm = () => {
                 </div>
                 <button type="submit">LogIn</button>
                 <div className="register-link"></div>
-                <p>Don't have an account? <a href='#'>Register</a></p>
+                <p>Don't have an account? <a href='/signup'>Register</a></p>
             </form>
         </div>
     );
