@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 from sqlalchemy import Integer, ForeignKey, Column
 
+
 db = SQLAlchemy()
 
 
@@ -10,7 +11,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
     age = db.Column(db.String(3), nullable=False)
     school = db.Column(db.String(200), nullable=False)
     gender = db.Column(db.String(200), nullable=False)
@@ -20,8 +21,7 @@ class User(db.Model):
     notes = db.relationship(
         "Note", backref="User", primaryjoin="User.id == Note.user_id"
     )
-
-
+    
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     your_work = db.Column(db.String(100), nullable=False)
@@ -47,5 +47,5 @@ class Abroad_blogs(db.Model):
     blog=db.Column(db.Text(5000))
     resources=db.Column(db.String(200))
     username=db.Column(db.String(50))
-
-
+    title = db.Column (db.String(150))
+    # user_id = db.Column(db.Integer, db.ForeignKey("User.id"))

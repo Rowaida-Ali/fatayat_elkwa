@@ -1,13 +1,14 @@
 from flask import Flask, request, session, jsonify
 from models import db, User, Task, Note ,Abroad_blogs
 from flask_cors import CORS
-
+from flask_bcrypt import Bcrypt 
 app = Flask(__name__)
 
 CORS(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///databaeworks.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db.init_app(app)
+bcrypt = Bcrypt(app)
 
 with app.app_context():
     db.create_all()
@@ -18,23 +19,23 @@ CURRENT_USER = ""
 @app.route("/signup", methods=["POST"])
 def registration():
     json = request.get_json()
+    hashed_password = bcrypt.generate_password_hash(json["password"]).decode('utf-8')
     user = User(
         email=json["email"],
-        password=json["password"],
+        password_hash=hashed_password,
         username=json["username"],
         age=json["age"],
         school=json["school"],
         gender=json["gender"],
     )
-
     user_db_email = User.query.filter_by(email=user.email).first()
     user_db_email_username = User.query.filter_by(username=user.username).first()
-    if len(user.password) < 6:
-        return "Password is short"
+    if len(json["password"]) < 6:
+        return jsonify ("Password is short")
     if not (user_db_email is None):
-        return "Email already saved"
+        return jsonify ("Email already saved")
     if not (user_db_email_username is None):
-        return "Username is already saved "
+        return jsonify( "Username is already saved ")
     db.session.add(user)
     db.session.commit()
     session.get(user)
@@ -50,12 +51,13 @@ def login():
     user = User.query.filter_by(email=email).first()
     if user is None:
         return jsonify("User not found")
-    elif user.password != password:
-        return jsonify("Incorrect password or email")
+    # elif user.password != password:
+    #     return jsonify("Incorrect password or email")
     global CURRENT_USER 
     CURRENT_USER = user.username
+    if not bcrypt.check_password_hash(user.password_hash,password):
+        return jsonify ("Invaild")
     return jsonify("Logged in successfully")
-
 
 @app.route("/search_user", methods=["GET"])
 def search():
@@ -190,18 +192,41 @@ def remove_blog():
         return jsonify("task removed")
     else:
         return jsonify("not found")
+
+@app.route("/view_all_blogs", methods=["GET"])
+def view_blog():
+    view_blogs = Abroad_blogs.query.all()
+    lst = []
+    for blog in view_blogs :
+        blogs_view = { 
+            # 'id' : blog.id,
+            'username': blog.username,
+            'title':blog.title,
+            'blog':blog.blog,
+            'country' : blog.country,
+            'university':blog.university,
+            'resources' :blog.resources
+        }
+        lst.append(blogs_view)
+    return jsonify(lst)
+
+@app.route("/view_my_blogs", methods=["GET"])
+def my_blogs():
+    json=request.get_json()
+    username = json["username"]
+    blogs = Abroad_blogs.query.filter_by(username=username).all()
+    lst = []
+    for blog in blogs:
+        blogs_view = { 
+            # 'id' : blog.id,
+            'title':blog.title,
+            'blog':blog.blog,
+            'country' : blog.country,
+            'university':blog.university,
+            'resources' :blog.resources
+        }
+        lst.append(blogs_view)
+    return jsonify(lst)
+
 if __name__ == "__main__":
     app.run(debug=True, port=3003)
-
-
-
-
-# add username to class abroad_blogs, add country, university, blog, resources, username
-# /add_blog 
-# /edit_blog
-# /remove_blog
-# /logout
-# /delete_account 
-
-
-# Study Groups
