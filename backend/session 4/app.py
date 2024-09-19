@@ -1,12 +1,17 @@
-from flask import Flask, request, session, jsonify
+from flask import Flask, request, session, jsonify ,make_response
 from models import db, User, Task, Note ,Abroad_blogs
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt 
+from flask_jwt_extended import JWTManager,create_access_token,jwt_required
+# from flask_login import UserMixin
+# import jwt
+# from datetime import datetime , timedelta
+# from functools import wraps
 app = Flask(__name__)
-
 CORS(app)
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+jwt= JWTManager(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///apps.db"
+app.config["SECRET_KEY"]="secret_key"
 db.init_app(app)
 bcrypt = Bcrypt(app)
 
@@ -14,6 +19,7 @@ with app.app_context():
     db.create_all()
 
 CURRENT_USER = "" 
+users=[]
 
 
 @app.route("/signup", methods=["POST"])
@@ -30,8 +36,6 @@ def registration():
     )
     user_db_email = User.query.filter_by(email=user.email).first()
     user_db_email_username = User.query.filter_by(username=user.username).first()
-    if len(json["password"]) < 6:
-        return jsonify ("Password is short")
     if not (user_db_email is None):
         return jsonify ("Email already saved")
     if not (user_db_email_username is None):
@@ -39,25 +43,24 @@ def registration():
     db.session.add(user)
     db.session.commit()
     session.get(user)
+    users.append(user.email)
+    users.append(hashed_password)
     return jsonify("Signed up successfully")
+
 
 
 @app.route("/login", methods=["POST"])
 def login():
-    json3 = request.get_json()
-    email = json3["email"]
-    json2 = request.get_json()
-    password = json2["password"]
-    user = User.query.filter_by(email=email).first()
-    if user is None:
-        return jsonify("User not found")
-    # elif user.password != password:
-    #     return jsonify("Incorrect password or email")
-    global CURRENT_USER 
-    CURRENT_USER = user.username
-    if not bcrypt.check_password_hash(user.password_hash,password):
-        return jsonify ("Invaild")
-    return jsonify("Logged in successfully")
+    json = request.get_json()
+    email = json["email"]
+    password = json["password"]
+    if email in users and bcrypt.check_password_hash(password.encode('utf-8'),):
+        access_token = create_access_token(identity=email)
+        return jsonify(access_token=access_token), 200
+    else:
+        print(f"user {users}")
+        return jsonify({"msg": "Invalid email or password"}), 401
+ 
 
 @app.route("/search_user", methods=["GET"])
 def search():
@@ -137,8 +140,8 @@ def task_completed():
 def taking_notes():
     json = request.get_json()
     username = json["username"]
-    note = Note(your_note=json["your_note"], secret=json["secret"], user_id=user.id)
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username)
+    note = Note(your_note=json["your_note"], secret=json["secret"],  username = json["username"])
     db.session.add(note)
     db.session.commit()
     return jsonify("Note added")
@@ -148,16 +151,19 @@ def taking_notes():
 def view():
     json = request.get_json()
     secret = json["secret"]
-    username = json["name"]
+    username = json["username"]
     user = User.query.filter_by(username=username).first()
-    note = Note.query.filter_by(secret=secret, user_id=user.id).first()
-    return jsonify({"all your notes": note.your_note})
+    note = Note.query.filter_by(secret=secret, user_id=user.id)
+    if secret==False:
+        return jsonify("all your notes")
+    else:
+        return jsonify("not found")
 
 
 @app.route("/get_all_notes", methods=["GET"])
 def get_notes():
     json = request.get_json()
-    username = json["name"]
+    username = json["username"]
     view_all = Note.query.filter_by(secret=True).all()
     lst = [note.your_note for note in view_all]
     return jsonify({"all your notes": lst})

@@ -1,12 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 from sqlalchemy import Integer, ForeignKey, Column
+from flask_login import UserMixin
 
 
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class User(db.Model , UserMixin):
     __tablename__ = "User"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -36,7 +37,7 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     your_note = db.Column(db.Text)
     secret = db.Column(db.Boolean, default=False)  # FALSE= PRIVATE True=public
-    name = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
 
 
