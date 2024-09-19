@@ -11,7 +11,7 @@ const StudingAbroad = () =>{
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch('http://localhost:5000/login ', {
+        const response = await fetch('http://localhost:3003/login ', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -27,6 +27,7 @@ const StudingAbroad = () =>{
     return(
         <div className='stuging'>
             <h1>StudingAbroad</h1>
+           <form onSubmit={handleSubmit}>
             <div className='user-input-box'>
                 <input type="user name" placeholder='User Name' required
                     value={username}
@@ -58,9 +59,9 @@ const StudingAbroad = () =>{
                     setResources(e.target.value) }/>
             </div>
             <div>
-            <button type="submit">Submit</button>
+            <button  studing-button type="submit">Submit</button>
             </div>
-            
+            </form>   
         </div>
 
     );

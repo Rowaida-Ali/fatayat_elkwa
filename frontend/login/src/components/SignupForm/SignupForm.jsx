@@ -3,7 +3,7 @@ import './SignupForm.css';
 const SignupForm = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [Gender,setGender]=useState('');
+    const [gender,setGender]=useState('');
     const [age, setAge] = useState('');
     const [school, setSchool] = useState('');
     const [username, setUsername] = useState('');
@@ -14,12 +14,12 @@ const SignupForm = () => {
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch('http://localhost:5000/login ', {
+        const response = await fetch('http://localhost:3003/login ', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ password,email,username,Gender,age,country,education,school }),
+          body: JSON.stringify({ password,email,username,gender,age,country,education,school }),
         });
         const data = await response.json();
         console.log(data);
@@ -59,7 +59,7 @@ const SignupForm = () => {
               
                 <div className="input-box">
                     <input type="text" placeholder='Gender' required 
-                     value={Gender} on onChange={(e)=>
+                     value={gender} on onChange={(e)=>
                     setGender(e.target.value)  }/>
                 </div>
               

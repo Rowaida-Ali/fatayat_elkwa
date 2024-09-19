@@ -10,8 +10,6 @@ import{BrowserRouter,Routes,Route} from 'react-router-dom';
 export default function App(){ 
   return(
     <div>
-      
-      {/* <LoginForm /> */}
       <BrowserRouter> 
       <Routes>
         <Route path="/login" element={<LoginForm />}/>
