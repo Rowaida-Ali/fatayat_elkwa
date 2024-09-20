@@ -13,7 +13,7 @@ import jwt
 app = Flask(__name__)
 CORS(app)
 jwt = JWTManager(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///apps.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///baant.db"
 app.config["SECRET_KEY"] = "secret_key"
 db.init_app(app)
 bcrypt = Bcrypt(app)
@@ -74,6 +74,23 @@ def search():
         )
     return jsonify("user not found"),404
 
+@app.route("/edit_profile",methods=["PUT"])
+@jwt_required()
+def edit_profile():
+    json = request.get_json()
+    current_user_email=get_jwt_identity()
+    user=User.query.filter_by(email=current_user_email).first()
+    gender = json["gender"]
+    edited = User.query.filter_by(gender=gender).first()
+
+    edited.username = json ["username"]
+    edited.age = json ["age"]
+    edited.school = json ["school"]
+    edited.password = json ["password"]
+
+    db.session.commit()
+
+    return jsonify ("updated successfully") , 200 
 
 @app.route("/add_task", methods=["POST"])
 @jwt_required()
@@ -146,8 +163,9 @@ def taking_notes():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
+    # notes = Note.query.filter_by(user_id = user_id).first()
     note = Note(
-        your_note=json["your_note"], secret=json["secret"], username=json["username"]
+        your_note=json["your_note"], secret=json["secret"], title=json["title"] , user_id = user.id
     )
     db.session.add(note)
     db.session.commit()
@@ -160,10 +178,11 @@ def edit_note():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
-    edit = Task(your_note=json["your_note"], secret=json["secret"])
-    db.session.add(edit)
+    title_note = json ["title"]
+    note_edited = Note.query.filter_by(title=title_note).first()
+    note_edited = Note(your_note=json["your_note"],secret=json["secret"])
     db.session.commit()
-    return jsonify("edited")
+    return jsonify("edited") , 200
 
 
 @app.route("/get_note_name", methods=["GET"])
@@ -172,10 +191,12 @@ def view():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
-    secret = json["secret"]
-    note = Note.query.filter_by(secret=secret, user_id=user.id)
-    if secret == False:
-        return jsonify("all your notes")
+    noted = Note.query.filter_by(secret=secret, user_id=user.id )
+    notes = [note.your_note for note in noted]
+    return jsonify  ({
+        "your_note" : user.your_note
+        } )
+   
     return jsonify("not found")
 
 
