@@ -5,6 +5,7 @@ import Aboutpage from './components/Aboutpage/aboutpage';
 import SignupForm from './components/SignupForm/SignupForm';
 import HomePage from './components/Homepage/homepage'
 import{BrowserRouter,Routes,Route} from 'react-router-dom';
+import CreateNote from './components/CreateNote/NoteTaker';
 
 export default function App(){ 
   return(
@@ -17,6 +18,7 @@ export default function App(){
         <Route path="/aboutpage" element={<Aboutpage />}/>
         <Route path="/signup" element={<SignupForm />}/>
         <Route path='/home' element={<HomePage />}/>
+        <Route path="/notetaker" element={<CreateNote/>}/>
       </Routes>
       </BrowserRouter>
     </div>
