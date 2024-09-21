@@ -57,6 +57,17 @@ def login():
         return jsonify(access_token=access_token), 200
     return jsonify({"msg": "Invalid email or password"}), 401
 
+@app.route("/delete_account",methods=["delete"])
+@jwt_required()
+def delete_account():
+    current_user_email=get_jwt_identity()
+    user=User.query.filter_by(email=current_user_email).first()
+    if user :
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify ("Account deleted") , 200
+    else :
+        return jsonify ("Invalid") , 404
 
 @app.route("/profile", methods=["GET"])
 @jwt_required()
