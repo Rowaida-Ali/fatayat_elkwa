@@ -49,3 +49,9 @@
     text-align: center;
     margin: 20px 0 15px;
 }
+.input-box select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #fca389;
+    border-radius: 5px;
+}

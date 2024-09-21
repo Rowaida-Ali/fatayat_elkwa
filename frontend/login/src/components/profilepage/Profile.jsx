@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import './ProfilePage.css';
 import EditPage from './EditPage';
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: 'MUHAB',
-    title: 'A member in fatyat el kewa + wald',
-    about: 'I am Mohab Abdelgwad aka Muhab, I love Playboy Carti and my Spotify playlist',
+    name: '',
+    title: '',
+    about: '',
     picture: '',
-    age: 4,
-    school: 'Elekbal', 
-    gender: 'Male', 
+    age: '', 
+    school: '', 
+    gender: '', 
   });
 
   const startEditing = () => setIsEditing(true); 
@@ -22,6 +24,22 @@ const ProfilePage = () => {
   };
 
   const cancelEditing = () => setIsEditing(false); 
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch('http://localhost:3003/delete_account', { 
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        navigate('/signup'); 
+      } 
+      }
+     catch (error) {
+      console.error('Error deleting account:', error);
+      alert('An error occurred while deleting the account.');
+    }
+  };
 
   return (
     <div className="profile-container">
@@ -42,6 +60,9 @@ const ProfilePage = () => {
           <p><strong>Gender:</strong> {profileData.gender}</p> 
           <button className="edit-button" onClick={startEditing}>
             Edit Profile
+          </button>
+          <button className="delete-button" onClick={handleDelete}>
+            Delete Account
           </button>
         </div>
       ) : (
