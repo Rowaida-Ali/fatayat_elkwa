@@ -3,6 +3,7 @@ import './LoginForm.css';
 import { FaLock} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
+
 const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ const LoginForm = () => {
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
-        const response = await fetch('http://localhost:5000/login ', {
+        const response = await fetch('http://localhost:3003/login ', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -19,6 +20,7 @@ const LoginForm = () => {
         });
         const data = await response.json();
         console.log(data);
+        localStorage.setItem('token',data.access_token);
      } catch (error) {
         console.error('Error:', error);
       }
