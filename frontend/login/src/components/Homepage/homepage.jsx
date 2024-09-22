@@ -1,14 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './homepage.css';
-const HomePage = ()=> {
-    return(
+
+const HomePage = () => {
+    const navigate = useNavigate();
+
+    const handleStudyAbroadClick = () => {
+        navigate('/studyabroad');
+    };
+
+    return (
         <div className='home'>
-           <h1>Home page</h1> 
-           <div className='content'>
-            <button type=''>TO-DO List</button>
-            <button type=''>Study Abroad</button>
-            <button type=''>Taking Notes</button>
-           </div>
+            <h1>Home page</h1>
+            <div className='content'>
+                <button type='button'>TO-DO List</button>
+                <button type='button' onClick={handleStudyAbroadClick}>Study Abroad</button>
+                <button type='button'>Taking Notes</button>
+            </div>
         </div>
     );
 };

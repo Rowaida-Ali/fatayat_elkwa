@@ -1,57 +1,67 @@
-.signup-wrapper{
+.study-abroad-page {
     width: 420px;
     margin: auto;
     background: #fca389;
     color: #fff;
-    border-radius: 10px ;
-    padding: 100px 50px;
+    border-radius: 10px;
+    padding: 50px 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
-.signup-wrapper h1 {
+
+.study-abroad-page h2 {
     font-size: 36px;
     text-align: center;
 }
-.signup-wrapper .input-box {
+
+.study-abroad-page .input-box {
     position: relative;
     width: 100%;
-    height: 50px;
-    margin: 30px 0;
+    margin: 20px 0;
 }
-.input-box input{ 
+
+.input-box input {
     width: 100%;
-    height: 100%;
+    height: 50px;
     background: transparent;
     outline: none;
-    border: 2px solid rgba(255,255,255, .2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 40px;
     font-size: 16px;
     color: #fff;
-    padding: 20px 45px 20px 20px;
-    margin: auto;
+    padding: 15px 20px;
 }
-.input-box input ::placeholder{
-    color: #fff;
+
+.input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
 }
-.signup-wrapper button{ 
+
+.study-abroad-page button {
     width: 100%;
     height: 45px;
     background: #fff;
     border: none;
-    outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
     color: #333;
     font-weight: 700;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.3s;
 }
-.signup-wrapper .Login-link{
-    font-size: 14.5px;
-    text-align: center;
-    margin: 20px 0 15px;
+
+.study-abroad-page button:hover {
+    background: #ffdfd0; /* Light hover effect */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
-.input-box select {
-    width: 100%;
+
+.study-abroad-page .video-list {
+    margin-top: 20px;
+}
+
+.video-list div {
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     padding: 10px;
-    border: 1px solid #fca389;
-    border-radius: 5px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
 }
