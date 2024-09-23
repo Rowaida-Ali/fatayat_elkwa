@@ -1,67 +1,87 @@
-.study-abroad-page {
+.signup-wrapper {
     width: 420px;
     margin: auto;
     background: #fca389;
     color: #fff;
     border-radius: 10px;
-    padding: 50px 30px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 100px 50px;
 }
 
-.study-abroad-page h2 {
+.signup-wrapper h1 {
     font-size: 36px;
     text-align: center;
+    color: #fff; 
 }
 
-.study-abroad-page .input-box {
+.signup-wrapper .input-box {
     position: relative;
     width: 100%;
-    margin: 20px 0;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff; 
 }
 
 .input-box input {
     width: 100%;
-    height: 50px;
+    height: 100%;
     background: transparent;
     outline: none;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 40px;
     font-size: 16px;
     color: #fff;
-    padding: 15px 20px;
+    padding: 20px 45px 20px 20px;
+    margin: auto;
 }
 
 .input-box input::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+    color: #fff; 
 }
 
-.study-abroad-page button {
+.signup-wrapper button {
     width: 100%;
     height: 45px;
     background: #fff;
     border: none;
+    outline: none;
     border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     font-size: 16px;
     color: #333;
     font-weight: 700;
-    margin-top: 20px;
-    transition: background-color 0.3s, transform 0.3s;
+    transition: background 0.3s;
 }
 
-.study-abroad-page button:hover {
-    background: #ffdfd0; /* Light hover effect */
-    transform: scale(1.05); /* Slightly increase size on hover */
+.signup-wrapper button:hover {
+    background: #e1e1e1; 
 }
 
-.study-abroad-page .video-list {
-    margin-top: 20px;
+.signup-wrapper .Login-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
 }
 
-.video-list div {
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+.input-box select {
+    width: 100%;
+    height: 50px; 
+    background: transparent; 
     padding: 10px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px; 
+    color: #fff;
+    outline: none;
+}
+
+
+input:focus,
+select:focus {
+    border-color: #fff;
 }

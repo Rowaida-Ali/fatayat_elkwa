@@ -16,12 +16,20 @@
     font-size: 32px;
     text-align: center;
     margin-bottom: 20px;
+    color: #fff;
 }
 
 .wrapper .input-box {
     position: relative;
     width: 100%;
     margin: 20px 0;
+}
+
+.input-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
 }
 
 .input-box input { 
@@ -57,7 +65,11 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    margin: -10px 0 15px;
+    margin: 10px 0 15px;
+}
+
+.remember-forget label {
+    margin-right: auto;
 }
 
 .remember-forget label input {

@@ -7,7 +7,8 @@ const SignupForm = () => {
         email: '',
         password: '',
         age: '',
-        gender: ''
+        gender: '',
+        school: ''
     });
 
     const handleChange = (e) => {
@@ -47,27 +48,39 @@ const SignupForm = () => {
                 <form onSubmit={handleSubmit}>
                     <h1>SIGNUP</h1>
                     <div className="input-box">
-                        <input type="text" name="username" placeholder='Username' required onChange={handleChange} />
+                        <label htmlFor="username">Username</label>
+                        <input type="text" name="username" id="username" required onChange={handleChange} />
+        
                     </div>
                     <div className="input-box">
-                        <input type="email" name="email" placeholder='Email' required onChange={handleChange} />
+                        <label htmlFor="email">Email</label>
+                        <input type="email" name="email" id="email" required onChange={handleChange} />
+                
                     </div>
                     <div className="input-box">
-                        <input type="password" name="password" placeholder='Password' required onChange={handleChange} />
+                        <label htmlFor="password">Password</label>
+                        <input type="password" name="password" id="password" required onChange={handleChange} />
+           
                     </div>
                     <div className="input-box">
-                        <input type="number" name="age" placeholder='Age' required onChange={handleChange} />
+                        <label htmlFor="age">Age</label>
+                        <input type="number" name="age" id="age" required onChange={handleChange} />
+                   
                     </div>
                     <div className="input-box">
-                        <input type="text" name="school" placeholder='School' required onChange={handleChange} />
+                        <label htmlFor="school">School</label>
+                        <input type="text" name="school" id="school" required onChange={handleChange} />
+                
                     </div>
                     <div className="input-box">
-                        <select name="gender" required onChange={handleChange}>
+                        <label htmlFor="gender">Gender</label>
+                        <select name="gender" id="gender" required onChange={handleChange}>
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                            <option value="other">Perfer not to say.</option>
+                            <option value="other">Prefer not to say</option>
                         </select>
+              
                     </div>
                     <button type="submit">SignUp</button>
                     <p>Already have an account? <a href='/login'>Login</a></p>
