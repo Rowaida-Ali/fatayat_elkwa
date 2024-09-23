@@ -10,20 +10,38 @@ const EditPage = ({ profile, onSave, onCancel }) => {
     });
   };
 
-  // Handle image upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file); // Create a temporary URL for the image
+      const imageUrl = URL.createObjectURL(file); 
       setUpdatedProfile({
         ...updatedProfile,
-        picture: imageUrl, // Set the picture to the new uploaded image
+        picture: imageUrl, 
       });
     }
   };
 
-  const handleSave = () => {
-    onSave(updatedProfile); // Save the updated profile data
+  const handleSave = async () => {
+    try {
+      const response = await fetch('http://localhost:3003/edit-profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save profile');
+      }
+
+      const data = await response.json();
+      console.log(data);
+      onSave(updatedProfile);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to save profile. Please try again.');
+    }
   };
 
   return (
@@ -71,15 +89,12 @@ const EditPage = ({ profile, onSave, onCancel }) => {
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>
-        </select>
-
-      {}
+      </select>
       <input 
         type="file" 
         accept="image/*" 
         onChange={handleImageUpload}
       />
-
       <button onClick={handleSave}>Save</button>
       <button onClick={onCancel}>Cancel</button>
     </div>

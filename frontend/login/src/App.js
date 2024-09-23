@@ -5,7 +5,7 @@ import Aboutpage from './components/Aboutpage/aboutpage';
 import SignupForm from './components/SignupForm/SignupForm';
 import HomePage from './components/Homepage/homepage';
 import ProfilePage from './components/profilepage/Profile';
-import BlogManager from './components/BlogForm/BlogManager';
+import StudyAbroad from './components/BlogForm/StudyAbroad';
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -27,8 +27,7 @@ export default function App() {
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/blogmanager" element={<BlogManager />} />
-          <Route path='/studyabroad' element={<BlogManager />} />
+          <Route path='/studyabroad' element={<StudyAbroad />} />
         </Routes>
       </BrowserRouter>
     </div>

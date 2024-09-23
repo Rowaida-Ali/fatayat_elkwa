@@ -15,27 +15,77 @@ const ProfilePage = () => {
     school: '', 
     gender: '', 
   });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch('http://localhost:3003/get_profile'); 
+        if (response.ok) {
+          const data = await response.json();
+          setProfileData(data);
+        } else {
+          console.error('Failed to fetch profile data');
+        }
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    };
+
+    fetchProfileData();
+  }, []); 
 
   const startEditing = () => setIsEditing(true); 
 
-  const saveProfile = (updatedProfile) => {
-    setProfileData(updatedProfile); 
-    setIsEditing(false); 
+  const saveProfile = async (updatedProfile) => {
+    try {
+      const response = await fetch('http://localhost:3003/update_profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProfileData(data); 
+        setIsEditing(false); 
+      } else {
+        console.error('Failed to update profile');
+        alert('Failed to update profile. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('An error occurred while updating the profile.');
+    }
   };
 
   const cancelEditing = () => setIsEditing(false); 
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = async () => {
     try {
       const response = await fetch('http://localhost:3003/delete_account', { 
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }), 
       });
       
       if (response.ok) {
+        localStorage.removeItem('token');
         navigate('/signup'); 
-      } 
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Failed to delete account. Please check your password.');
       }
-     catch (error) {
+    } catch (error) {
       console.error('Error deleting account:', error);
       alert('An error occurred while deleting the account.');
     }
@@ -67,6 +117,21 @@ const ProfilePage = () => {
         </div>
       ) : (
         <EditPage profile={profileData} onSave={saveProfile} onCancel={cancelEditing} />
+      )}
+
+      {showDeleteConfirm && (
+        <div className="delete-confirmation">
+          <h3>Confirm Account Deletion</h3>
+          <p>Please enter your password to confirm:</p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Your password"
+          />
+          <button onClick={confirmDelete}>Confirm</button>
+          <button onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
+        </div>
       )}
     </div>
   );
