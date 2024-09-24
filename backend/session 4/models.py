@@ -55,7 +55,16 @@ class Abroad_blogs(db.Model):
     university = db.Column(db.String(100))
     blog = db.Column(db.Text(5000))
     resources = db.Column(db.String(200))
-    username = db.Column(db.String(50))
+    # username = db.Column(db.String(50))
     title_blog = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
+
+class Study_abroad(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    
+
+
+
+
+
 

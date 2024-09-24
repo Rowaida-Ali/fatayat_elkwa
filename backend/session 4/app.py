@@ -96,7 +96,7 @@ def edit_profile():
     current_user_email=get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
     gender = json["gender"]
-    edited = User.query.filter_by(gender=gender).first()
+    edited = User.query.filter_by(gender=gender , id=user.id).first()
     edited.username = json ["username"]
     edited.age = json ["age"]
     edited.school = json ["school"]
@@ -110,7 +110,7 @@ def add():
     json = request.get_json()
     current_user_email= get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
-    work = Task(your_work=json["your_work"], user_id=user.id)
+    work = Task(your_work=json["your_work"], title=json["title"] , user_id=user.id)
     db.session.add(work)
     db.session.commit()
     return jsonify("received")
@@ -134,9 +134,10 @@ def remove_task():
 def edit_tasks():
     json = request.get_json()
     current_user_email=get_jwt_identity()
+    title=json["title"]
     user=User.query.filter_by(email=current_user_email).first()
     your_work = json["your_work"]
-    edit_task = Task .query.filter_by(your_work=your_work ,user_id=user.id).first()
+    edit_task = Task .query.filter_by(title=title,user_id=user.id).first()
     edit_task.your_work=your_work
     db.session.commit()
     return jsonify("edited")
@@ -144,9 +145,11 @@ def edit_tasks():
 @app.route("/view_tasks", methods=["GET"])
 @jwt_required()
 def view_tasks():
+    json=request.get_json()
     current_user_email = get_jwt_identity()
+    title=json["title"]
     user=User.query.filter_by(email=current_user_email).first()
-    view_all_tasks = Task.query.filter_by(user_id=user.id)
+    view_all_tasks = Task.query.filter_by(title=title,user_id=user.id)
     tasks = [task.your_work for task in view_all_tasks]
     return jsonify(tasks)
 
@@ -171,7 +174,7 @@ def taking_notes():
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
     note = Note(
-        your_note=json["your_note"], secret=json["secret"], title=json["title"] , user_id = user.id
+        your_note=json["your_note"], secret=json["secret"], title_notes=json["title_notes"] , user_id = user.id
     )
     db.session.add(note)
     db.session.commit()
@@ -183,8 +186,8 @@ def edit_note():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
-    title = json ["title"]
-    note_edited = Note.query.filter_by(title=title , user_id=user.id).first()
+    title_notes = json ["title_notes"]
+    note_edited = Note.query.filter_by(title_notes=title_notes , user_id=user.id).first()
     note_edited.your_note=json["your_note"]
     note_edited.secret=json["secret"]
     db.session.commit()
@@ -227,12 +230,12 @@ def add_blogs():
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
     blogs = Abroad_blogs(
-        username=json["username"],
         university=json["university"],
         country=json["country"],
         blog=json["blog"],
         resources=json["resources"],
-        title_blog=json["title_blog"]
+        title_blog=json["title_blog"],
+        user_id=user.id
     )
     db.session.add(blogs)
     db.session.commit()
@@ -244,12 +247,12 @@ def edit():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
-    title_blog=json["title"]
-    blog=json["blog"]
-    blog_edited = Abroad_blogs.query.filter_by(title_blog=title_blog, user_id=user.id )
-    blog_edited.blog=blog
+    title_blog=json["title_blog"]
+    blog_edited = Abroad_blogs.query.filter_by(title_blog=title_blog, user_id=user.id ).first()
+    blog_edited.blog=json["blog"]
     blog_edited.university=json["university"]
     blog_edited.resources=json["resources"]
+    blog_edited.country=json["country"]
     db.session.commit()
     return jsonify("Edited")
 
@@ -289,21 +292,20 @@ def view_blog():
 @app.route("/view_my_blogs", methods=["GET"])
 @jwt_required()
 def my_blogs():
-    json = request.get_json()
     current_user_email = get_jwt_identity()
     user=User.query.filter_by(email=current_user_email).first()
     blogs = Abroad_blogs.query.filter_by( user_id=user.id).all()
     lst = []
     for blog in blogs:
         blogs_view = {
-            "title": blog.title,
+            "title_blog": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
             "university": blog.university,
             "resources": blog.resources,
         }
         lst.append(blogs_view)
-    return jsonify(lst)
+    return jsonify(lst) 
 
 if __name__ == "__main__":
     app.run(debug=True, port=3003)
