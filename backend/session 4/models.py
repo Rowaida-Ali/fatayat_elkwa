@@ -12,7 +12,7 @@ class User(db.Model):
     __tablename__ = "User"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False) 
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     age = db.Column(db.String(3), nullable=False)
     school = db.Column(db.String(200), nullable=False)
@@ -26,10 +26,12 @@ class User(db.Model):
     abroad = db.relationship(
         "Abroad_blogs", backref="User", primaryjoin="User.id == Abroad_blogs.user_id"
     )
-    def set_password (self,password) :
+
+    def set_password(self, password):
         self.password_hash = Bcrypt.generate_password_hash(password).decode("utf-8")
-    def check(self,password):
-        return Bcrypt.check_password_hash(self.password_hash,password)
+
+    def check(self, password):
+        return Bcrypt.check_password_hash(self.password_hash, password)
 
 
 class Task(db.Model):
@@ -38,7 +40,6 @@ class Task(db.Model):
     completed = db.Column(db.BOOLEAN, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
     title = db.Column(db.String(150))
-    
 
 
 class Note(db.Model):
@@ -59,12 +60,6 @@ class Abroad_blogs(db.Model):
     title_blog = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
 
+
 class Study_abroad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
-
-
-
-
-
-
