@@ -12,7 +12,7 @@ class User(db.Model):
     __tablename__ = "User"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False) 
     password_hash = db.Column(db.String(200), nullable=False)
     age = db.Column(db.String(3), nullable=False)
     school = db.Column(db.String(200), nullable=False)
@@ -58,3 +58,4 @@ class Abroad_blogs(db.Model):
     username = db.Column(db.String(50))
     title_blog = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
+

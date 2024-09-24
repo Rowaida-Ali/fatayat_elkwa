@@ -22,7 +22,6 @@ bcrypt = Bcrypt(app)
 with app.app_context():
     db.create_all()
 
-
 @app.route("/signup", methods=["POST"])
 def registration():
     json = request.get_json()
@@ -45,7 +44,6 @@ def registration():
     db.session.commit()
     return jsonify("Signed up successfully"), 200
 
-
 @app.route("/login", methods=["POST"])
 def login():
     json = request.get_json()
@@ -57,7 +55,12 @@ def login():
         return jsonify(access_token=access_token), 200
     return jsonify({"msg": "Invalid email or password"}), 401
 
-@app.route("/delete_account",methods=["delete"])
+@app.route("/logout", methods=["POST"])
+@jwt_required()
+def logout ():
+    return ("Successfully logged out") , 200 
+
+@app.route("/delete_account",methods=["DELETE"])
 @jwt_required()
 def delete_account():
     current_user_email=get_jwt_identity()
@@ -94,14 +97,11 @@ def edit_profile():
     user=User.query.filter_by(email=current_user_email).first()
     gender = json["gender"]
     edited = User.query.filter_by(gender=gender).first()
-
     edited.username = json ["username"]
     edited.age = json ["age"]
     edited.school = json ["school"]
     edited.password = json ["password"]
-
     db.session.commit()
-
     return jsonify ("updated successfully") , 200 
 
 @app.route("/add_task", methods=["POST"])
@@ -114,7 +114,6 @@ def add():
     db.session.add(work)
     db.session.commit()
     return jsonify("received")
-
 
 @app.route("/remove_task", methods=["DELETE"])
 @jwt_required()
@@ -130,7 +129,6 @@ def remove_task():
         return jsonify("Task Deleted")
     return jsonify("Not Found"), 404
 
-
 @app.route("/edit_task", methods=["PUT"])
 @jwt_required()
 def edit_tasks():
@@ -143,7 +141,6 @@ def edit_tasks():
     db.session.commit()
     return jsonify("edited")
 
-
 @app.route("/view_tasks", methods=["GET"])
 @jwt_required()
 def view_tasks():
@@ -152,7 +149,6 @@ def view_tasks():
     view_all_tasks = Task.query.filter_by(user_id=user.id)
     tasks = [task.your_work for task in view_all_tasks]
     return jsonify(tasks)
-
 
 @app.route("/completed_tasks", methods=["PUT"])
 @jwt_required()
@@ -168,7 +164,6 @@ def task_completed():
         return jsonify("Task marked as completed")
     return jsonify("task not found"), 404
 
-
 @app.route("/take_note", methods=["POST"])
 @jwt_required()
 def taking_notes():
@@ -180,8 +175,7 @@ def taking_notes():
     )
     db.session.add(note)
     db.session.commit()
-    return jsonify("Note added")
-
+    return jsonify("Note added") 
 
 @app.route("/edit_note", methods=["PUT"])
 @jwt_required()
@@ -196,7 +190,6 @@ def edit_note():
     db.session.commit()
     return jsonify("edited") , 200
 
-
 @app.route("/get_note_name", methods=["GET"])
 @jwt_required()
 def view():
@@ -208,8 +201,16 @@ def view():
     return jsonify  ({
         "your_note" : notes
         } )
-   
 
+@app.route("/remove_note", methods=["DELETE"])
+@jwt_required()
+def remove_note():
+    current_user_email=get_jwt_identity()
+    user=User.query.filter_by(email=current_user_email).first()
+    note = Note.query.filter_by(user_id=user.id).first()
+    db.session.delete(note)
+    db.session.commit()
+    return jsonify("Note Deleted"), 200
 
 @app.route("/get_all_notes", methods=["GET"])
 def get_notes():
@@ -218,7 +219,6 @@ def get_notes():
     view_all = Note.query.filter_by(secret=True).all()
     lst = [note.your_note for note in view_all]
     return jsonify({"all your notes": lst})
-
 
 @app.route("/add_blog", methods=["POST"])
 @jwt_required()
@@ -238,7 +238,6 @@ def add_blogs():
     db.session.commit()
     return jsonify("added")
 
-
 @app.route("/edit_blogs", methods=["PUT"])
 @jwt_required()
 def edit():
@@ -254,7 +253,6 @@ def edit():
     db.session.commit()
     return jsonify("Edited")
 
-
 @app.route("/remove_blog", methods=["DELETE"])
 @jwt_required()
 def remove_blog():
@@ -269,7 +267,6 @@ def remove_blog():
         return jsonify("Bloged removed")
     return jsonify("not found"), 404
 
-
 @app.route("/view_all_blogs", methods=["GET"])
 @jwt_required()
 def view_blog():
@@ -279,7 +276,6 @@ def view_blog():
     lst = []
     for blog in view_blogs:
         blogs_view = {
-            # 'id' : blog.id,
             "username": blog.username,
             "title": blog.title_blog,
             "blog": blog.blog,
@@ -289,7 +285,6 @@ def view_blog():
         }
         lst.append(blogs_view)
     return jsonify(lst)
-
 
 @app.route("/view_my_blogs", methods=["GET"])
 @jwt_required()
@@ -301,7 +296,6 @@ def my_blogs():
     lst = []
     for blog in blogs:
         blogs_view = {
-            # 'id' : blog.id,
             "title": blog.title,
             "blog": blog.blog,
             "country": blog.country,
@@ -310,7 +304,6 @@ def my_blogs():
         }
         lst.append(blogs_view)
     return jsonify(lst)
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=3003)
