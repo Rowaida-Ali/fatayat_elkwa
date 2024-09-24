@@ -4,8 +4,10 @@ import LoginForm from './components/LoginForm/LoginForm';
 import Aboutpage from './components/Aboutpage/aboutpage';
 import SignupForm from './components/SignupForm/SignupForm';
 import HomePage from './components/Homepage/homepage'
+import CreateNote from './components/CreateNote/gitNoteTaker';
 import{BrowserRouter,Routes,Route} from 'react-router-dom';
-import CreateNote from './components/CreateNote/NoteTaker';
+
+
 
 export default function App(){ 
   return(
