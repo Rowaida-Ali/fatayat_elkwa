@@ -54,7 +54,7 @@
   transform: scale(1.1);
 }
 
-.edit-button, .delete-button {
+.edit-button, .delete-button, .logout-button {
   background-color: #333; 
   color: #fff;
   padding: 10px 20px;
@@ -65,9 +65,17 @@
   font-weight: 600;
 }
 
-.edit-button:hover, .delete-button:hover {
+.edit-button:hover, .delete-button:hover, .logout-button:hover {
   background-color: #555;
   transform: scale(1.05);
+}
+
+.logout-button {
+  background-color: #333; 
+}
+
+.logout-button:hover {
+  background-color: #555;
 }
 
 .profile-card p {

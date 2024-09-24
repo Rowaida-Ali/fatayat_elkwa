@@ -91,6 +91,11 @@ const ProfilePage = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login'); 
+  };
+
   return (
     <div className="profile-container">
       {!isEditing ? (
@@ -113,6 +118,9 @@ const ProfilePage = () => {
           </button>
           <button className="delete-button" onClick={handleDelete}>
             Delete Account
+          </button>
+          <button className="logout-button" onClick={handleLogout}>
+            Log Out
           </button>
         </div>
       ) : (

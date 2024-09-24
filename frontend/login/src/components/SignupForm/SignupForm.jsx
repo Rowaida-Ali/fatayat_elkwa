@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignupForm.css';
 
 const SignupForm = () => {
@@ -10,6 +11,8 @@ const SignupForm = () => {
         gender: '',
         school: ''
     });
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,16 +32,17 @@ const SignupForm = () => {
                 },
                 body: JSON.stringify(formData),
             });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
             const data = await response.json();
-            alert(data.message); 
+
+            if (response.ok) {
+                localStorage.setItem('token', data.access_token);
+                navigate('/login'); 
+            } else {
+                setErrorMessage(data.message || 'Signup failed. Please try again.');
+            }
         } catch (error) {
             console.error('Error:', error);
-            alert('Error');
+            setErrorMessage('An error occurred. Please try again later.');
         }
     };
 
@@ -47,30 +51,26 @@ const SignupForm = () => {
             <div className='signup-wrapper'>
                 <form onSubmit={handleSubmit}>
                     <h1>SIGNUP</h1>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                     <div className="input-box">
                         <label htmlFor="username">Username</label>
                         <input type="text" name="username" id="username" required onChange={handleChange} />
-        
                     </div>
                     <div className="input-box">
                         <label htmlFor="email">Email</label>
                         <input type="email" name="email" id="email" required onChange={handleChange} />
-                
                     </div>
                     <div className="input-box">
                         <label htmlFor="password">Password</label>
                         <input type="password" name="password" id="password" required onChange={handleChange} />
-           
                     </div>
                     <div className="input-box">
                         <label htmlFor="age">Age</label>
                         <input type="number" name="age" id="age" required onChange={handleChange} />
-                   
                     </div>
                     <div className="input-box">
                         <label htmlFor="school">School</label>
                         <input type="text" name="school" id="school" required onChange={handleChange} />
-                
                     </div>
                     <div className="input-box">
                         <label htmlFor="gender">Gender</label>
@@ -80,7 +80,6 @@ const SignupForm = () => {
                             <option value="female">Female</option>
                             <option value="other">Prefer not to say</option>
                         </select>
-              
                     </div>
                     <button type="submit">SignUp</button>
                     <p>Already have an account? <a href='/login'>Login</a></p>
