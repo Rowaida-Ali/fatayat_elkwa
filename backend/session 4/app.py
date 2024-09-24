@@ -14,7 +14,7 @@ import jwt
 app = Flask(__name__)
 CORS(app)
 jwt = JWTManager(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///baat.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///databse.db"
 app.config["SECRET_KEY"] = "secret_key"
 db.init_app(app)
 bcrypt = Bcrypt(app)
