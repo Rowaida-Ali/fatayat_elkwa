@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import CreateNote from './CreateNote'
-import './notes.css'
-import {v4 as uuid} from 'uuid'
-import Note from './Note'
+import React, { useEffect, useState } from 'react';
+import CreateNote from './CreateNote';
+import './notes.css';
+import {v4 as uuid} from 'uuid';
+import Note from './Note';
 
 const Notes = () => {
-    const [inputText, setInputText] = useState("")
-    const [notes, setNotes] = useState([])
-    const [editToggle, setEditToggle] = useState(null)
+    const [inputText, setInputText] = useState("");
+    const [notes, setNotes] = useState([]);
+    const [editToggle, setEditToggle] = useState(null);
+
+       
 
     const editHandler = (id,text) => {
-        setEditToggle(id)
-        setInputText(text)
+        setEditToggle(id);
+        setInputText(text);
     }
     const saveHandler = () => {
         if(editToggle) {
@@ -47,7 +49,7 @@ const Notes = () => {
 
   useEffect(() => {
     localStorage.setItem("Notes", JSON.stringify(notes));
-  }, [notes]);
+  }, [notes]); 
   return (
     <div className='notes'>
         {
@@ -76,10 +78,10 @@ const Notes = () => {
             setInputText = {setInputText} 
             saveHandler = {saveHandler}
         /> : <></>
-        }
+        }    
              
     </div>
   )
 }
 
-export default Notes
+export default Notes;

@@ -20,7 +20,7 @@ export default function App(){
         <Route path="/aboutpage" element={<Aboutpage />}/>
         <Route path="/signup" element={<SignupForm />}/>
         <Route path='/home' element={<HomePage />}/>
-        <Route path="/notetaker" element={<CreateNote/>}/>
+        <Route path="/notetake" element={<CreateNote/>}/>
       </Routes>
       </BrowserRouter>
     </div>

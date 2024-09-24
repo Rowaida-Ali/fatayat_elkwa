@@ -12,4 +12,4 @@ const Note = ({id, text, editHandler, deleteHandler}) => {
   )
 }
 
-export default Note
+export default Note;

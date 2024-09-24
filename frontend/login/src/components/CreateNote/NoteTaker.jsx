@@ -23,7 +23,7 @@ const CreateNote = ({inputText, setInputText, saveHandler}) => {
   )
 }
 
-export default CreateNote
+export default CreateNote;
 
 
 
