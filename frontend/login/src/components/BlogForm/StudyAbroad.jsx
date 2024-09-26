@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './StudyAbroad.css';
 
 const StudyAbroad = () => {
   const [blogs, setBlogs] = useState([]);
   const [country, setCountry] = useState('');
-  const [schoolTitle, setSchoolTitle] = useState('');
   const [textPost, setTextPost] = useState('');
   const [university, setUniversity] = useState('');
+  const [resource, setResource] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBlogs();
@@ -17,7 +18,15 @@ const StudyAbroad = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch('http://localhost:3003/view_all_blogs');
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3003/view_all_blogs', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -30,8 +39,8 @@ const StudyAbroad = () => {
   };
 
   const handleAddBlog = async () => {
-    if (country && schoolTitle && textPost && university && username) {
-      const newBlog = { country, schoolTitle, textPost, university, username }; 
+    if (country && textPost && university && resource && username) {
+      const newBlog = { country, textPost, university, resource, username };
       try {
         const response = await fetch('http://localhost:3003/add_blog', {
           method: 'POST',
@@ -42,13 +51,15 @@ const StudyAbroad = () => {
         });
 
         if (response.ok) {
-          const addedBlog = await response.json();
-          setBlogs((prevBlogs) => [...prevBlogs, addedBlog]);
+          const data = await response.json();
+          localStorage.setItem('token', data.access_token);
+          setBlogs((prevBlogs) => [...prevBlogs, data]);
           setCountry('');
-          setSchoolTitle('');
           setTextPost('');
           setUniversity('');
+          setResource('');
           setUsername('');
+          navigate('/blog-list');
         } else {
           throw new Error('Failed to add blog');
         }
@@ -66,35 +77,45 @@ const StudyAbroad = () => {
       <h1>Study Abroad</h1>
       {error && <p className="error-message">{error}</p>}
       <div className="form-group">
-        <input
-          type="text"
-          placeholder="Country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="School Title"
-          value={schoolTitle}
-          onChange={(e) => setSchoolTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="Write your post here..."
-          value={textPost}
-          onChange={(e) => setTextPost(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="University"
-          value={university}
-          onChange={(e) => setUniversity(e.target.value)}
-        />
+        <p className="input-description">Username.</p>
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+
+        <p className="input-description">Country.</p>
+        <input
+          type="text"
+          placeholder="Country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+        
+        <p className="input-description">Blog.</p>
+        <textarea
+          placeholder="Write your post here..."
+          value={textPost}
+          onChange={(e) => setTextPost(e.target.value)}
+        />
+
+        <p className="input-description">University.</p>
+        <input
+          type="text"
+          placeholder="University"
+          value={university}
+          onChange={(e) => setUniversity(e.target.value)}
+        />
+        
+        <p className="input-description">Resources.</p>
+        <input
+          type="text"
+          placeholder="Resource"
+          value={resource}
+          onChange={(e) => setResource(e.target.value)}
+        />
+
         <button onClick={handleAddBlog}>Add Blog</button>
       </div>
       <div>
@@ -108,10 +129,10 @@ const StudyAbroad = () => {
       <div className="blog-list">
         {blogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3>{blog.schoolTitle} ({blog.country})</h3>
+            <h3>{blog.university} ({blog.country})</h3>
+            <p><strong>Submitted by:</strong> {blog.username}</p> 
             <p>{blog.textPost}</p>
-            <p>University: {blog.university}</p>
-            <p>Submitted by: {blog.username}</p>
+            <p>Resource: {blog.resource}</p>
           </div>
         ))}
       </div>
