@@ -29,7 +29,7 @@ function Todolist() {
     const addTask = async () => {
         if (taskTitleInput.trim() && taskInput.trim()) {
             try {
-                const response = await fetch('http://localhost:3003/api/tasks', {
+                const response = await fetch('http://localhost:3003/add_task', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -54,7 +54,7 @@ function Todolist() {
 
     const deleteTask = async (id) => {
         try {
-            await fetch(`http://localhost:3003/api/tasks/${id}`, {
+            await fetch(`http://localhost:3003/delete_task`, {
                 method: 'DELETE',
             });
             setTasks(prevTasks => prevTasks.filter(task => task.id !== id));

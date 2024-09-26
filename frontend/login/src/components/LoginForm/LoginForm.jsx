@@ -25,7 +25,7 @@ const LoginForm = () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.access_token);
-                navigate('/home'); 
+                navigate('/'); 
             } else {
                 setErrorMessage(data.message || 'Login failed. Please try again.');
             }
