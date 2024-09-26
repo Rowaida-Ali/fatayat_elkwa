@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Blog from './Blog';
 import './StudyAbroad.css';
 
 const StudyAbroad = () => {
@@ -27,9 +28,6 @@ const StudyAbroad = () => {
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       const data = await response.json();
       setBlogs(data);
     } catch (error) {
@@ -50,19 +48,14 @@ const StudyAbroad = () => {
           body: JSON.stringify(newBlog),
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          localStorage.setItem('token', data.access_token);
-          setBlogs((prevBlogs) => [...prevBlogs, data]);
-          setCountry('');
-          setTextPost('');
-          setUniversity('');
-          setResource('');
-          setUsername('');
-          navigate('/blog-list');
-        } else {
-          throw new Error('Failed to add blog');
-        }
+        const data = await response.json();
+        setBlogs((prevBlogs) => [...prevBlogs, data]);
+        setCountry('');
+        setTextPost('');
+        setUniversity('');
+        setResource('');
+        setUsername('');
+        navigate('/blog-list');
       } catch (error) {
         console.error('Error adding blog:', error);
         setError('Failed to add blog. Please try again later.');
@@ -84,7 +77,6 @@ const StudyAbroad = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-
         <p className="input-description">Country.</p>
         <input
           type="text"
@@ -92,14 +84,12 @@ const StudyAbroad = () => {
           value={country}
           onChange={(e) => setCountry(e.target.value)}
         />
-        
         <p className="input-description">Blog.</p>
         <textarea
           placeholder="Write your post here..."
           value={textPost}
           onChange={(e) => setTextPost(e.target.value)}
         />
-
         <p className="input-description">University.</p>
         <input
           type="text"
@@ -107,7 +97,6 @@ const StudyAbroad = () => {
           value={university}
           onChange={(e) => setUniversity(e.target.value)}
         />
-        
         <p className="input-description">Resources.</p>
         <input
           type="text"
@@ -115,7 +104,6 @@ const StudyAbroad = () => {
           value={resource}
           onChange={(e) => setResource(e.target.value)}
         />
-
         <button onClick={handleAddBlog}>Add Blog</button>
       </div>
       <div>
@@ -128,12 +116,7 @@ const StudyAbroad = () => {
       </div>
       <div className="blog-list">
         {blogs.map((blog) => (
-          <div key={blog.id} className="blog-item">
-            <h3>{blog.university} ({blog.country})</h3>
-            <p><strong>Submitted by:</strong> {blog.username}</p> 
-            <p>{blog.textPost}</p>
-            <p>Resource: {blog.resource}</p>
-          </div>
+          <Blog key={blog.id} blog={blog} />
         ))}
       </div>
     </div>

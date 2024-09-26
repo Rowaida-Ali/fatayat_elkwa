@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 
 const EditPage = ({ profile, onSave, onCancel }) => {
-  const [updatedProfile, setUpdatedProfile] = useState(profile);
+  const [updatedProfile, setUpdatedProfile] = useState({
+    name: profile.name,
+    age: profile.age,
+    school: profile.school,
+    picture: profile.picture,
+    gender: profile.gender,
+  });
 
   const handleChange = (e) => {
     setUpdatedProfile({
@@ -52,19 +58,6 @@ const EditPage = ({ profile, onSave, onCancel }) => {
         value={updatedProfile.name} 
         onChange={handleChange} 
         placeholder="Name"
-      />
-      <input 
-        type="text" 
-        name="title" 
-        value={updatedProfile.title} 
-        onChange={handleChange} 
-        placeholder="Title"
-      />
-      <textarea 
-        name="about" 
-        value={updatedProfile.about} 
-        onChange={handleChange} 
-        placeholder="About"
       />
       <input 
         type="number" 

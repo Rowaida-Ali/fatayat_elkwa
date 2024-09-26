@@ -6,7 +6,6 @@ function Todolist() {
     const [taskTitleInput, setTaskTitleInput] = useState('');
     const [taskInput, setTaskInput] = useState('');
     const [editTaskId, setEditTaskId] = useState(null);
-    const [editTitleInput, setEditTitleInput] = useState('');
     const [editInput, setEditInput] = useState('');
 
     useEffect(() => {
@@ -15,10 +14,10 @@ function Todolist() {
 
     const fetchTasks = async () => {
         try {
-            const response = await fetch('http://localhost:3003/api/tasks');
+            const response = await fetch('http://localhost:3003/tasks'); 
             if (!response.ok) {
-                console.error(`Failed to fetch tasks. Status: ${response.status}`);
-                return; 
+                console.error(`Failed to fetch tasks: HTTP error! Status: ${response.status}`);
+                return;
             }
             const data = await response.json();
             setTasks(data);
@@ -39,8 +38,8 @@ function Todolist() {
                     }),
                 });
                 if (!response.ok) {
-                    console.error(`Failed to add task. Status: ${response.status}`);
-                    return; 
+                    console.error(`Failed to add task: HTTP error! Status: ${response.status}`);
+                    return;
                 }
                 const newTask = await response.json();
                 setTasks(prevTasks => [...prevTasks, newTask]);
@@ -56,13 +55,11 @@ function Todolist() {
 
     const deleteTask = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3003/delete_task/${id}`, {
+            await fetch(`http://localhost:3003/delete`, {
                 method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
             });
-            if (!response.ok) {
-                console.error(`Failed to delete task. Status: ${response.status}`);
-                return; 
-            }
             setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
         } catch (error) {
             console.error('Failed to delete task:', error);
@@ -71,35 +68,33 @@ function Todolist() {
 
     const startEditing = (task) => {
         setEditTaskId(task.id);
-        setEditTitleInput(task.title);
         setEditInput(task.text);
     };
 
     const editTask = async () => {
-        if (editTitleInput.trim() && editInput.trim()) {
+        if (editInput.trim()) {
             try {
-                const response = await fetch(`http://localhost:3003/edit_task/${editTaskId}`, {
+                const response = await fetch('http://localhost:3003/edit_task', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        title: editTitleInput,
+                        id: editTaskId,
                         text: editInput
                     }),
                 });
                 if (!response.ok) {
-                    console.error(`Failed to update task. Status: ${response.status}`);
-                    return; 
+                    console.error(`Failed to update task: HTTP error! Status: ${response.status}`);
+                    return;
                 }
                 const updatedTask = await response.json();
-                setTasks(prevTasks => prevTasks.map(task => (task.id === editTaskId ? updatedTask : task)));
+                setTasks(prevTasks => prevTasks.map(task => (task.id === editTaskId ? { ...task, text: updatedTask.text } : task)));
                 setEditTaskId(null);
-                setEditTitleInput('');
                 setEditInput('');
             } catch (error) {
                 console.error('Failed to update task:', error);
             }
         } else {
-            alert('Please enter a title and task to save.');
+            alert('Please enter a task to save.');
         }
     };
 
@@ -126,13 +121,6 @@ function Todolist() {
                     <li key={task.id}>
                         {editTaskId === task.id ? (
                             <div>
-                                <label>Title</label>
-                                <input
-                                    type="text"
-                                    value={editTitleInput}
-                                    onChange={(e) => setEditTitleInput(e.target.value)}
-                                    placeholder="Edit title..."
-                                />
                                 <label>Task</label>
                                 <input
                                     type="text"

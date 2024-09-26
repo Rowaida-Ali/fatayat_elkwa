@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoginForm.css';
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -9,6 +9,14 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

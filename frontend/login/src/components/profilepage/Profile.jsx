@@ -8,11 +8,10 @@ const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     name: '',
-    title: '',
-    about: '',
     age: '', 
     school: '', 
-    gender: '', 
+    email: '', 
+    gender: '',  
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [password, setPassword] = useState('');
@@ -20,7 +19,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await fetch('http://localhost:3003/get_profile'); 
+        const response = await fetch('http://localhost:3003/profile');
         if (response.ok) {
           const data = await response.json();
           setProfileData(data);
@@ -90,9 +89,26 @@ const ProfilePage = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login'); 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:3003/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('token');
+        navigate('/login'); 
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Failed to log out. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+      alert('An error occurred while logging out.');
+    }
   };
 
   return (
@@ -100,10 +116,9 @@ const ProfilePage = () => {
       {!isEditing ? (
         <div className="profile-card">
           <h2>{profileData.name}</h2>
-          <h4>{profileData.title}</h4>
-          <p>{profileData.about}</p>
           <p><strong>Age:</strong> {profileData.age}</p> 
           <p><strong>School:</strong> {profileData.school}</p> 
+          <p><strong>Email:</strong> {profileData.email}</p> 
           <p><strong>Gender:</strong> {profileData.gender}</p> 
           <button className="edit-button" onClick={startEditing}>
             Edit Profile
