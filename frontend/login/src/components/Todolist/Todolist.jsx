@@ -15,9 +15,10 @@ function Todolist() {
 
     const fetchTasks = async () => {
         try {
-            const response = await fetch('http://localhost:3003/api/tasks'); 
+            const response = await fetch('http://localhost:3003/api/tasks');
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                console.error(`Failed to fetch tasks. Status: ${response.status}`);
+                return; 
             }
             const data = await response.json();
             setTasks(data);
@@ -38,7 +39,8 @@ function Todolist() {
                     }),
                 });
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    console.error(`Failed to add task. Status: ${response.status}`);
+                    return; 
                 }
                 const newTask = await response.json();
                 setTasks(prevTasks => [...prevTasks, newTask]);
@@ -54,9 +56,13 @@ function Todolist() {
 
     const deleteTask = async (id) => {
         try {
-            await fetch(`http://localhost:3003/delete_task`, {
+            const response = await fetch(`http://localhost:3003/delete_task/${id}`, {
                 method: 'DELETE',
             });
+            if (!response.ok) {
+                console.error(`Failed to delete task. Status: ${response.status}`);
+                return; 
+            }
             setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
         } catch (error) {
             console.error('Failed to delete task:', error);
@@ -72,7 +78,7 @@ function Todolist() {
     const editTask = async () => {
         if (editTitleInput.trim() && editInput.trim()) {
             try {
-                const response = await fetch(`http://localhost:3003/edit_task`, {
+                const response = await fetch(`http://localhost:3003/edit_task/${editTaskId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -81,7 +87,8 @@ function Todolist() {
                     }),
                 });
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    console.error(`Failed to update task. Status: ${response.status}`);
+                    return; 
                 }
                 const updatedTask = await response.json();
                 setTasks(prevTasks => prevTasks.map(task => (task.id === editTaskId ? updatedTask : task)));
