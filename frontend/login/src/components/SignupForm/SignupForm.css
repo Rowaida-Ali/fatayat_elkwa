@@ -85,3 +85,35 @@ input:focus,
 select:focus {
     border-color: #fff;
 }
+
+.input-box input.weak {
+    border-color: red; 
+}
+
+.input-box input.medium {
+    border-color: orange; 
+}
+
+.input-box input.strong {
+    border-color: green; 
+}
+
+
+
+
+.input-box select {
+    width: 100%;
+    height: 50px; 
+    background: transparent; 
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px; 
+    color: #fff; 
+    outline: none;
+}
+
+
+.input-box select option {
+    color: black;
+    background-color: white;
+}

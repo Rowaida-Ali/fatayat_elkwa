@@ -72,7 +72,7 @@ function Todolist() {
     const editTask = async () => {
         if (editTitleInput.trim() && editInput.trim()) {
             try {
-                const response = await fetch(`http://localhost:3003/api/tasks/${editTaskId}`, {
+                const response = await fetch(`http://localhost:3003/edit_task`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

@@ -10,7 +10,6 @@ const ProfilePage = () => {
     name: '',
     title: '',
     about: '',
-    picture: '',
     age: '', 
     school: '', 
     gender: '', 
@@ -100,13 +99,6 @@ const ProfilePage = () => {
     <div className="profile-container">
       {!isEditing ? (
         <div className="profile-card">
-          <div className="profile-picture">
-            {profileData.picture ? (
-              <img src={profileData.picture} alt="Profile" className="image" />
-            ) : (
-              <div className="image-placeholder">150 x 150</div>
-            )}
-          </div>
           <h2>{profileData.name}</h2>
           <h4>{profileData.title}</h4>
           <p>{profileData.about}</p>

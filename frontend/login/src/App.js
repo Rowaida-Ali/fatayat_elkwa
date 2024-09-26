@@ -8,6 +8,7 @@ import StudyAbroad from './components/BlogForm/StudyAbroad';
 import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
 import EditBlog from './components/BlogForm/EditBlog';
 import Todolist from'./components/Todolist/Todolist'
+import MyBlogs from './components/BlogForm/MyBlogs';
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
@@ -38,11 +39,12 @@ export default function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/aboutpage" element={<Aboutpage />} />
           <Route path="/signup" element={<SignupForm />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/studyabroad" element={<StudyAbroad blogs={blogs} setBlogs={setBlogs} />} />
           <Route path="/blog-list" element={<StudyAbroadlist blogs={blogs} onDelete={handleDelete} />} />
           <Route path="/edit/:id" element={<EditBlog blogs={blogs} onUpdate={handleUpdate} />} />
+          <Route path='/myblogs' element={<MyBlogs/>}/>
           <Route path="/todo" element={<Todolist/>}/>
         </Routes>
       </BrowserRouter>
