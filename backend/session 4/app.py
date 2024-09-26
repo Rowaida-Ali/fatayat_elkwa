@@ -70,9 +70,11 @@ def logout():
 @app.route("/delete_account", methods=["DELETE"])
 @jwt_required()
 def delete_account():
+    json=request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    if user:
+    password=json['password']
+    if user and bcrypt.check_password_hash(user.password_hash,password):
         db.session.delete(user)
         db.session.commit()
         return jsonify("Account deleted"), 200
@@ -120,7 +122,7 @@ def add():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    work = Task(your_work=json["your_work"], title=json["title"], user_id=user.id)
+    work = Task(your_work=json["text"], title=json["title"], user_id=user.id)
     db.session.add(work)
     db.session.commit()
     return jsonify("received")
@@ -146,10 +148,10 @@ def remove_task():
 def edit_tasks():
     json = request.get_json()
     current_user_email = get_jwt_identity()
-    title = json["title"]
+    # title = json["title"]
     user = User.query.filter_by(email=current_user_email).first()
-    your_work = json["your_work"]
-    edit_task = Task.query.filter_by(title=title, user_id=user.id).first()
+    your_work = json["text"]
+    edit_task = Task.query.filter_by( user_id=user.id).first()
     edit_task.your_work = your_work
     db.session.commit()
     return jsonify("edited")
@@ -158,11 +160,9 @@ def edit_tasks():
 @app.route("/view_tasks", methods=["GET"])
 @jwt_required()
 def view_tasks():
-    json = request.get_json()
     current_user_email = get_jwt_identity()
-    title = json["title"]
     user = User.query.filter_by(email=current_user_email).first()
-    view_all_tasks = Task.query.filter_by(title=title, user_id=user.id)
+    view_all_tasks = Task.query.filter_by( user_id=user.id)
     tasks = [task.your_work for task in view_all_tasks]
     return jsonify(tasks)
 
@@ -305,7 +305,7 @@ def view_blog():
     lst = []
     for blog in view_blogs:
         blogs_view = {
-            "username": blog.username,
+            # "username": blog.username,
             "title": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
