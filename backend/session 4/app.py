@@ -64,8 +64,7 @@ def login():
 @app.route("/logout", methods=["POST"])
 @jwt_required()
 def logout():
-    return ("Successfully logged out"), 200
-
+    return jsonify ("Successfully logged out"), 200
 
 @app.route("/delete_account", methods=["DELETE"])
 @jwt_required()
@@ -106,12 +105,9 @@ def edit_profile():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    gender = json["gender"]
-    edited = User.query.filter_by(gender=gender, id=user.id).first()
-    edited.username = json["username"]
-    edited.age = json["age"]
-    edited.school = json["school"]
-    edited.password = json["password"]
+    user.age = json["age"]
+    user.gender =json ["gender"]
+    user.school = json["school"]
     db.session.commit()
     return jsonify("updated successfully"), 200
 
@@ -148,7 +144,6 @@ def remove_task():
 def edit_tasks():
     json = request.get_json()
     current_user_email = get_jwt_identity()
-    # title = json["title"]
     user = User.query.filter_by(email=current_user_email).first()
     your_work = json["text"]
     edit_task = Task.query.filter_by( user_id=user.id).first()
@@ -163,7 +158,7 @@ def view_tasks():
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
     view_all_tasks = Task.query.filter_by( user_id=user.id)
-    tasks = [task.your_work for task in view_all_tasks]
+    tasks = [[ task.title,task.your_work] for task in view_all_tasks]
     return jsonify(tasks)
 
 
@@ -173,8 +168,7 @@ def task_completed():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    complete = json["completed_tasks"]
-    task = Task.query.filter_by(your_work=complete, user_id=user.id).first()
+    task = Task.query.filter_by(title = json["title"], user_id=user.id).first()
     if task:
         task.completed = True
         db.session.commit()
@@ -304,8 +298,9 @@ def view_blog():
     view_blogs = Abroad_blogs.query.all()
     lst = []
     for blog in view_blogs:
+        user_blog = User.query.filter_by(id=blog.user_id).first()
         blogs_view = {
-            # "username": blog.username,
+            "username" : user_blog.username,
             "title": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
