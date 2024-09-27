@@ -42,8 +42,8 @@ const SignupForm = () => {
         e.preventDefault();
 
         
-        if (formData.age < 1 || formData.age <= 16) {
-            setErrorMessage('Age must be greater than 16');
+        if (formData.age < 1 || formData.age <= 4) {
+            setErrorMessage('Age must be greater than 4');
             return;
         }
 
