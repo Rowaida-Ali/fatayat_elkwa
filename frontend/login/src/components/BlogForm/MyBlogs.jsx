@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import'./EditBlog'
+import './EditBlog';
 
 const MyBlogs = () => {
   const [myBlogs, setMyBlogs] = useState([]);
@@ -9,7 +9,6 @@ const MyBlogs = () => {
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
-        
         const response = await fetch('http://localhost:3003/view_my_blogs');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
@@ -67,3 +66,4 @@ const MyBlogs = () => {
 };
 
 export default MyBlogs;
+
