@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './EditBlog';
+import './EditBlog'; 
 
 const MyBlogs = () => {
   const [myBlogs, setMyBlogs] = useState([]);
   const [error, setError] = useState('');
+  const [blog, setBlog] = useState('');
+  const [country, setCountry] = useState('');
+  const [resources, setResources] = useState('');
+  const [title, setTitle] = useState('');
+  const [university, setUniversity] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     const fetchMyBlogs = async () => {
@@ -66,4 +72,3 @@ const MyBlogs = () => {
 };
 
 export default MyBlogs;
-
