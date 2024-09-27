@@ -24,7 +24,8 @@ const ViewTakingNotes= () => {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      setNotes(data);
+      const jsonArray=JSON.parse(data)
+      setNotes(jsonArray);
     } catch (error) {
       console.error('Error fetching my blogs:', error);
       setError('Failed to load your notes. Please try again later.');
