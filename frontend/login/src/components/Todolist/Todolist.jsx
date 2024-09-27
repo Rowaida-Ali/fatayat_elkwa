@@ -14,11 +14,9 @@ function Todolist() {
 
     const fetchTasks = async () => {
         try {
-           
             const response = await fetch('http://localhost:3003/tasks'); 
             if (!response.ok) {
-              
-                return;
+                throw new Error('Failed to fetch tasks');
             }
             const data = await response.json();
             setTasks(data);
@@ -33,16 +31,18 @@ function Todolist() {
                 const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:3003/add_task', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                              'Authorization': `Bearer ${token}`,
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         title: taskTitleInput,
                         text: taskInput
                     }),
                 });
                 if (!response.ok) {
-                    console.error(`Failed to add task: HTTP error! Status: ${response.status}`);
-                    return;
+                    const errorMessage = await response.text();
+                    throw new Error(`Failed to add task: ${errorMessage}`);
                 }
                 const newTask = await response.json();
                 setTasks(prevTasks => [...prevTasks, newTask]);
@@ -58,13 +58,14 @@ function Todolist() {
 
     const deleteTask = async (id) => {
         try {
-             const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
             await fetch(`http://localhost:3003/remove_task`, {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                            'Authorization': `Bearer ${token}`,
-
-                body: JSON.stringify({ id })
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ id }),
             });
             setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
         } catch (error) {
@@ -83,16 +84,18 @@ function Todolist() {
                 const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:3003/edit_task', {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                               'Authorization': `Bearer ${token}`,
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         id: editTaskId,
                         text: editInput
                     }),
                 });
                 if (!response.ok) {
-                    console.error(`Failed to update task: HTTP error! Status: ${response.status}`);
-                    return;
+                    const errorMessage = await response.text();
+                    throw new Error(`Failed to update task: ${errorMessage}`);
                 }
                 const updatedTask = await response.json();
                 setTasks(prevTasks => prevTasks.map(task => (task.id === editTaskId ? { ...task, text: updatedTask.text } : task)));
