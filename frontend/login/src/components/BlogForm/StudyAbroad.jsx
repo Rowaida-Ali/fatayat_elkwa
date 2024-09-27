@@ -23,7 +23,7 @@ const MyBlogs = () => {
         setMyBlogs(data);
       } catch (error) {
         console.error('Error fetching my blogs:', error);
-        // setError('Failed to load your blogs. Please try again later.');
+        setError('Failed to load your blogs. Please try again later.');
       }
     };
 
