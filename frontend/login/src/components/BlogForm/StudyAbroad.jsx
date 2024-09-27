@@ -130,8 +130,7 @@ const MyBlogs = () => {
       <div className="blog-list">
         {myBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3>{blog.schoolTitle} ({blog.country})</h3>
-            <iframe width="320" height="240" src={blog.videoLink} title="Video" />
+            <h3>{blog.title} ({blog.country})</h3>
             <button onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
             <Link to={`/edit/${blog.id}`}>
               <button>Edit</button>

@@ -7,10 +7,10 @@ import ProfilePage from './components/profilepage/Profile';
 import StudyAbroad from './components/BlogForm/StudyAbroad';
 import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
 import EditBlog from './components/BlogForm/EditBlog';
-import Todolist from'./components/Todolist/Todolist'
+import Todolist from './components/Todolist/Todolist';
 import MyBlogs from './components/BlogForm/MyBlogs';
 import Navbar from './components/Navbar/Navbar';
-import CreateNote from './components/CreateNote/NoteTaker';
+import ProtectedRoute from './components/ProtectedRoute'; 
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -38,19 +38,17 @@ export default function App() {
         <ConditionalNavbar />
         <Routes>
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/aboutpage" element={<Aboutpage />} />
+          <Route path="/aboutpage" element={<ProtectedRoute><Aboutpage /></ProtectedRoute>} />
           <Route path="/signup" element={<SignupForm />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} /> 
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/studyabroad" element={<StudyAbroad blogs={blogs} setBlogs={setBlogs} />} />
-          <Route path="/blog-list" element={<StudyAbroadlist blogs={blogs} onDelete={handleDelete} />} />
-          <Route path="/edit/:id" element={<EditBlog blogs={blogs} onUpdate={handleUpdate} />} />
-          <Route path='/myblogs' element={<MyBlogs />} />
-          <Route path="/todo" element={<Todolist />} />
-          <Route path="/createnote" element={<CreateNote />} />
+          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+          <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} /> 
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/studyabroad" element={<ProtectedRoute><StudyAbroad blogs={blogs} setBlogs={setBlogs} /></ProtectedRoute>} />
+          <Route path="/blog-list" element={<ProtectedRoute><StudyAbroadlist blogs={blogs} onDelete={handleDelete} /></ProtectedRoute>} />
+          <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} />
+          <Route path='/myblogs' element={<ProtectedRoute><MyBlogs /></ProtectedRoute>} />
+          <Route path="/todo" element={<ProtectedRoute><Todolist /></ProtectedRoute>} />
         </Routes>
-
       </BrowserRouter>
     </div>
   );
