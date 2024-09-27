@@ -1,34 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './EditBlog.css'; 
 
 const MyBlogs = () => {
-  const [myBlogs, setMyBlogs] = useState([]);
+  const [myBlogs, setMyBlogs] = useState([
+    { id: 1, title: 'First Blog', country: 'USA', blog: 'This is the first blog.', university: 'Harvard', resources: 'N/A' },
+    { id: 2, title: 'Second Blog', country: 'UK', blog: 'This is the second blog.', university: 'Oxford', resources: 'N/A' }
+  ]);
+  
   const [error, setError] = useState('');
   
-  // State variables for the form
   const [blog, setBlog] = useState('');
   const [country, setCountry] = useState('');
   const [resources, setResources] = useState('');
   const [title, setTitle] = useState('');
   const [university, setUniversity] = useState('');
-  // const [username, setUsername] = useState('');
-
-  useEffect(() => {
-    const fetchMyBlogs = async () => {
-      try {
-        const response = await fetch('http://localhost:3003/view_my_blogs');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        setMyBlogs(data);
-      } catch (error) {
-        console.error('Error fetching my blogs:', error);
-        setError('Failed to load your blogs. Please try again later.');
-      }
-    };
-
-    fetchMyBlogs();
-  }, []);
 
   const handleDeleteBlog = async (id) => {
     try {
@@ -54,9 +40,9 @@ const MyBlogs = () => {
   };
 
   const handleAddBlog = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     if (blog && country && university && resources && title) {
-      const newBlog = { blog, country, university, resources, title };
+      const newBlog = { blog, country, university, resources, title }; 
       try {
         const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:3003/add_blog', {
@@ -69,13 +55,17 @@ const MyBlogs = () => {
         });
 
         const data = await response.json();
-        setMyBlogs((prevBlogs) => [...prevBlogs, data]);
-        // Reset form fields
-        setBlog('');
-        setCountry('');
-        setResources('');
-        setUniversity('');
-        setTitle('');
+        if (response.ok) {
+          setMyBlogs((prevBlogs) => [...prevBlogs, data]);
+  
+          setBlog('');
+          setCountry('');
+          setResources('');
+          setUniversity('');
+          setTitle('');
+        } else {
+          setError('Failed to add blog. Please try again later.');
+        }
       } catch (error) {
         console.error('Error adding blog:', error);
         setError('Failed to add blog. Please try again later.');
