@@ -1,40 +1,28 @@
-.container {
-  background-color: #fca389;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
-  margin: auto;
-}
-
-h1 {
-  text-align: center;
-  color: #fff;
-}
-
-input, textarea {
+input[type="text"],
+textarea {
+  width: 100%;
   padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
-  border: 1px solid #fff;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1em;
+  color: #444;
+  background-color: #fafafa;
+  transition: border-color 0.3s;
 }
 
-button {
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #fca389;
-  border: none;
-  cursor: pointer;
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #fca389;
+  outline: none;
 }
 
-.blog {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #fff;
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: #aaa;
 }
 
-.blog h2 {
-  color: #fca389;
+textarea {
+  resize: vertical;
+  height: 100px;
 }
