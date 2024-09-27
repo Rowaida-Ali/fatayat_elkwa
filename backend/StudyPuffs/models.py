@@ -58,4 +58,3 @@ class Abroad_blogs(db.Model):
     resources = db.Column(db.String(200))
     title_blog = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
-

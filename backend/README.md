@@ -9,7 +9,7 @@ Backend Documentation for StudyPuffs
 
 - **Delete Account** : to delete account 
 
-- **Profile & Edit profile** : user's profile (username, age, gender , school , email) , can edit (username,age,school,password)
+- **Profile & Edit profile** : user's profile (username, age, gender , school , email) , can edit (username,age,school,gender)
 
 - **To_do lsit**: List for students to manage their tasks and  it has many routes (Add,Remove,View,edit,Complete).
 
@@ -23,6 +23,15 @@ Backend Documentation for StudyPuffs
 - **ORM** : SQlAlchemy
 - **Authentication** : JWT
 - **Password Hashing** : Bcrypt
+
+## 3. Database:
+- **CLASSES :**
+    1. class user
+    columns:username,password_hash,email,gender,age,school,id
+    2. class T
+    columns:your_work,completed,user_id,title,id
+    3. class Note
+
 
 ## 3.Endpoints:
 1. **Sign_up** :
@@ -69,24 +78,24 @@ Endpoint:`/completed_tasks`
 - **Notes Endpoints**:
 1. **Add**:
 Method:POST ,
-Endpoint= `/take_note`
+Endpoint: `/take_note`
 2. **Edit** :
 Method:PUT ,
 Endpoint:`/edit_note`
 3. **Get notes name** :
 Method:GET ,
-Endpoint=`/get_note_name`
+Endpoint:`/get_private_notes`
 4. **Remove**:
 Method:DELETE ,
 Endpoint:`/remove_note`
 5. **Get All**:
 Method:GET ,
-Endpoint=`/get_all_notes`
+Endpoint:`/get_public_notes`
 
 - **Study Abroad Endpoints**:
 1. **Add**:
 Method:POST ,
-Endpoint= `/add_blog`
+Endpoint: `/add_blog`
 2. **Edit** :
 Method:PUT ,
 Endpoint:`/edit_blogs`
@@ -95,7 +104,7 @@ Method:DELETE ,
 Endpoint:`/remove_blog`
 4. **View All**:
 Method:GET ,
-Endpoint=`/view_all_blogs`
+Endpoint:`/view_all_blogs`
 5. **View My**:
 Method:GET ,
-Endpoint=`/view_my_blogs`
+Endpoint:`/view_my_blogs`
