@@ -15,7 +15,7 @@ const ViewTakingNotes= () => {
   const fetchMyNotes = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3003/get_public_notes', {
+      const response = await fetch('http://localhost:3003/get_private_notes', {
         method:`GET`,
         headers:{
           'Content-Type': 'application/json',
@@ -24,8 +24,7 @@ const ViewTakingNotes= () => {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      const jsonArray=JSON.parse(data)
-      setNotes(jsonArray);
+      setNotes(data);
     } catch (error) {
       console.error('Error fetching my blogs:', error);
       setError('Failed to load your notes. Please try again later.');
@@ -71,11 +70,11 @@ const ViewTakingNotes= () => {
        fetchMyNotes()
        //  setNotes((prevBlogs) => prevBlogs.filter(blog => blog.id !== id));
       } else {
-        throw new Error('Failed to delete note');
+        throw new Error('Failed to delete blog');
       }
     } catch (error) {
-      console.error('Error deleting note:', error);
-      setError('Failed to delete note. Please try again later.');
+      console.error('Error deleting blog:', error);
+      setError('Failed to delete blog. Please try again later.');
     }
   };
 

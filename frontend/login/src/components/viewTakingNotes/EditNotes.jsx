@@ -3,29 +3,31 @@ import React, { useState } from 'react';
 const EditNote = ({ takingnotes , onSave, onCancel }) => {
   const [title, setTitle] = useState("")
   const [input , setInput]=useState("")
+  const[updatednotes , setUpdatedNotes]=useState("")
  
   const HandleChange = (e) => {
     setUpdatedNotes({
-      ...updatedNotes,
+      ...updatednotes,
       [e.target.text]: e.target.value,
     });
   };
 
    const handleChange = (e) => {
     setUpdatedNotes({
-      ...updatedNotes,
+      ...updatednotes,
       [e.target.input]: e.target.value,
     });
   };
 
   const handleSave = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3003/edit-notes', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatednote),
+          'Authorization':`Bearer ${token}`},
+        body: JSON.stringify(updatednotes),
       });
 
       if (!response.ok) {
@@ -45,13 +47,13 @@ const EditNote = ({ takingnotes , onSave, onCancel }) => {
       <input 
         type="text" 
         name="name" 
-        onChange={handleChange} 
+        onChange={HandleChange} 
         placeholder="Text"
       /> 
       <input 
         type="text" 
         name="input" 
-        onChange={HandleChange} 
+        onChange={handleChange} 
         placeholder="Input"
       />
       <button onClick={handleSave}>Save</button>
@@ -60,4 +62,4 @@ const EditNote = ({ takingnotes , onSave, onCancel }) => {
   );
 };
 
-export default EditNotes;
+export default EditNote;
