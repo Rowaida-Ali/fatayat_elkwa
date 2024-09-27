@@ -58,10 +58,12 @@ const SignupForm = () => {
         }
 
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:3003/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(formData),
             });

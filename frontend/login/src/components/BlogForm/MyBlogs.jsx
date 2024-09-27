@@ -9,6 +9,7 @@ const MyBlogs = () => {
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
+        
         const response = await fetch('http://localhost:3003/view_my_blogs');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
@@ -24,10 +25,12 @@ const MyBlogs = () => {
 
   const handleDeleteBlog = async (id) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:3003/remove_blog`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ id }),
       });

@@ -40,10 +40,12 @@ const StudyAbroad = () => {
     if (country && textPost && university && resource && username) {
       const newBlog = { country, textPost, university, resource, username };
       try {
+        const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:3003/add_blog', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+             'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(newBlog),
         });

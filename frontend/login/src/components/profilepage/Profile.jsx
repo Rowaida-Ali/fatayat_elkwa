@@ -68,10 +68,12 @@ const ProfilePage = () => {
 
   const confirmDelete = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3003/delete_account', { 
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ password }), 
       });
@@ -91,10 +93,12 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3003/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
       });
 

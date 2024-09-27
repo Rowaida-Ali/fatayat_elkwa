@@ -20,10 +20,12 @@ const EditBlog = ({ blog, onUpdate }) => {
     const updatedBlog = { id: parseInt(id), country, schoolTitle, videoLink };
     
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3003/edit_blogs', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(updatedBlog),
       });

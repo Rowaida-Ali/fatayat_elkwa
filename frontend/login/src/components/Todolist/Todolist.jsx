@@ -14,9 +14,10 @@ function Todolist() {
 
     const fetchTasks = async () => {
         try {
+           
             const response = await fetch('http://localhost:3003/tasks'); 
             if (!response.ok) {
-                console.error(`Failed to fetch tasks: HTTP error! Status: ${response.status}`);
+              
                 return;
             }
             const data = await response.json();
@@ -29,9 +30,11 @@ function Todolist() {
     const addTask = async () => {
         if (taskTitleInput.trim() && taskInput.trim()) {
             try {
+                const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:3003/add_task', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                              'Authorization': `Bearer ${token}`,
                     body: JSON.stringify({
                         title: taskTitleInput,
                         text: taskInput
@@ -55,9 +58,12 @@ function Todolist() {
 
     const deleteTask = async (id) => {
         try {
-            await fetch(`http://localhost:3003/delete`, {
+             const token = localStorage.getItem('token');
+            await fetch(`http://localhost:3003/remove_task`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
+                            'Authorization': `Bearer ${token}`,
+
                 body: JSON.stringify({ id })
             });
             setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
@@ -74,9 +80,11 @@ function Todolist() {
     const editTask = async () => {
         if (editInput.trim()) {
             try {
+                const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:3003/edit_task', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
+                               'Authorization': `Bearer ${token}`,
                     body: JSON.stringify({
                         id: editTaskId,
                         text: editInput
