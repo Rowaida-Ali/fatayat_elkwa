@@ -26,9 +26,14 @@ function Todolist() {
     };
 
     const addTask = async () => {
+        console.log('Add Task clicked');
+        console.log('Title:', taskTitleInput, 'Task:', taskInput);
+        
         if (taskTitleInput.trim() && taskInput.trim()) {
             try {
                 const token = localStorage.getItem('token');
+                console.log('Token:', token);
+                
                 const response = await fetch('http://localhost:3003/add_task', {
                     method: 'POST',
                     headers: { 
@@ -40,10 +45,12 @@ function Todolist() {
                         text: taskInput
                     }),
                 });
+
                 if (!response.ok) {
                     const errorMessage = await response.text();
                     throw new Error(`Failed to add task: ${errorMessage}`);
                 }
+                
                 const newTask = await response.json();
                 setTasks(prevTasks => [...prevTasks, newTask]);
                 setTaskTitleInput('');
@@ -93,12 +100,16 @@ function Todolist() {
                         text: editInput
                     }),
                 });
+
                 if (!response.ok) {
                     const errorMessage = await response.text();
                     throw new Error(`Failed to update task: ${errorMessage}`);
                 }
+
                 const updatedTask = await response.json();
-                setTasks(prevTasks => prevTasks.map(task => (task.id === editTaskId ? { ...task, text: updatedTask.text } : task)));
+                setTasks(prevTasks => prevTasks.map(task => 
+                    (task.id === editTaskId ? { ...task, text: updatedTask.text } : task)
+                ));
                 setEditTaskId(null);
                 setEditInput('');
             } catch (error) {
