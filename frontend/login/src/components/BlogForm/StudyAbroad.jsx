@@ -1,63 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Blog from './Blog';
-import './StudyAbroad.css';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './EditBlog.css'; 
 
-const StudyAbroad = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [country, setCountry] = useState('');
-  const [textPost, setTextPost] = useState('');
-  const [university, setUniversity] = useState('');
-  const [resource, setResource] = useState('');
-  const [username, setUsername] = useState('');
+const MyBlogs = () => {
+  const [myBlogs, setMyBlogs] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  
+  // State variables for the form
+  const [blog, setBlog] = useState('');
+  const [country, setCountry] = useState('');
+  const [resources, setResources] = useState('');
+  const [title, setTitle] = useState('');
+  const [university, setUniversity] = useState('');
+  // const [username, setUsername] = useState('');
 
   useEffect(() => {
-    fetchBlogs();
+    const fetchMyBlogs = async () => {
+      try {
+        const response = await fetch('http://localhost:3003/view_my_blogs');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setMyBlogs(data);
+      } catch (error) {
+        console.error('Error fetching my blogs:', error);
+        // setError('Failed to load your blogs. Please try again later.');
+      }
+    };
+
+    fetchMyBlogs();
   }, []);
 
-  const fetchBlogs = async () => {
+  const handleDeleteBlog = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3003/view_all_blogs', {
-        method: 'GET',
+      const response = await fetch(`http://localhost:3003/remove_blog`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
+        body: JSON.stringify({ id }),
       });
 
-      const data = await response.json();
-      setBlogs(data);
+      if (response.ok) {
+        setMyBlogs((prevBlogs) => prevBlogs.filter(blog => blog.id !== id));
+      } else {
+        throw new Error('Failed to delete blog');
+      }
     } catch (error) {
-      console.error('Error fetching blogs:', error);
-      setError('Failed to load blogs. Please try again later.');
+      console.error('Error deleting blog:', error);
+      setError('Failed to delete blog. Please try again later.');
     }
   };
 
-  const handleAddBlog = async () => {
-    if (country && textPost && university && resource && username) {
-      const newBlog = { country, textPost, university, resource, username };
+  const handleAddBlog = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    if (blog && country && university && resources && title) {
+      const newBlog = { blog, country, university, resources, title };
       try {
         const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:3003/add_blog', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-             'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(newBlog),
         });
 
         const data = await response.json();
-        setBlogs((prevBlogs) => [...prevBlogs, data]);
+        setMyBlogs((prevBlogs) => [...prevBlogs, data]);
+        // Reset form fields
+        setBlog('');
         setCountry('');
-        setTextPost('');
+        setResources('');
         setUniversity('');
-        setResource('');
-        setUsername('');
-        navigate('/blog-list');
+        setTitle('');
       } catch (error) {
         console.error('Error adding blog:', error);
         setError('Failed to add blog. Please try again later.');
@@ -68,61 +86,61 @@ const StudyAbroad = () => {
   };
 
   return (
-    <div className="study-abroad-container">
-      <h1>Study Abroad</h1>
+    <div>
+      <h1>My Blogs</h1>
       {error && <p className="error-message">{error}</p>}
-      <div className="form-group">
-        <p className="input-description">Username.</p>
+      
+      <form onSubmit={handleAddBlog}>
         <input
           type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Title"
+          required
         />
-        <p className="input-description">Country.</p>
         <input
           type="text"
-          placeholder="Country"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
+          placeholder="Country"
+          required
         />
-        <p className="input-description">Blog.</p>
         <textarea
+          value={blog}
+          onChange={(e) => setBlog(e.target.value)}
           placeholder="Write your post here..."
-          value={textPost}
-          onChange={(e) => setTextPost(e.target.value)}
+          required
         />
-        <p className="input-description">University.</p>
         <input
           type="text"
-          placeholder="University"
           value={university}
           onChange={(e) => setUniversity(e.target.value)}
+          placeholder="University"
+          required
         />
-        <p className="input-description">Resources.</p>
         <input
           type="text"
-          placeholder="Resource"
-          value={resource}
-          onChange={(e) => setResource(e.target.value)}
+          value={resources}
+          onChange={(e) => setResources(e.target.value)}
+          placeholder="Resources"
         />
-        <button onClick={handleAddBlog}>Add Blog</button>
-      </div>
-      <div>
-        <Link to="/my-blogs">
-          <button className="view-my-blogs">View My Blogs</button>
-        </Link>
-        <Link to="/blog-list">
-          <button className="view-more">View More</button>
-        </Link>
-      </div>
+        <button type="submit">Add Blog</button>
+      </form>
+
       <div className="blog-list">
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+        {myBlogs.map((blog) => (
+          <div key={blog.id} className="blog-item">
+            <h3>{blog.schoolTitle} ({blog.country})</h3>
+            <iframe width="320" height="240" src={blog.videoLink} title="Video" />
+            <button onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
+            <Link to={`/edit/${blog.id}`}>
+              <button>Edit</button>
+            </Link>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-export default StudyAbroad;
+export default MyBlogs;

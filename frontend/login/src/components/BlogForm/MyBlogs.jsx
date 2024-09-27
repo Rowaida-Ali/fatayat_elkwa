@@ -5,17 +5,24 @@ import './EditBlog';
 const MyBlogs = () => {
   const [myBlogs, setMyBlogs] = useState([]);
   const [error, setError] = useState('');
-  const [blog, setBlog] = useState('');
-  const [country, setCountry] = useState('');
-  const [resources, setResources] = useState('');
-  const [title, setTitle] = useState('');
-  const [university, setUniversity] = useState('');
-  const [username, setUsername] = useState('');
+  // const [blog, setBlog] = useState('');
+  // const [country, setCountry] = useState('');
+  // const [resources, setResources] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [university, setUniversity] = useState('');
+  // const [username, setUsername] = useState('');
 
   useEffect(() => {
     const fetchMyBlogs = async () => {
       try {
-        const response = await fetch('http://localhost:3003/view_my_blogs');
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3003/view_my_blogs', {
+          method:`GET`,
+          headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          }
+        });
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         setMyBlogs(data);
