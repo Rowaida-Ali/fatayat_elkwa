@@ -10,11 +10,14 @@ const MyBlogs = () => {
   
   const [error, setError] = useState('');
   
-  const [blog, setBlog] = useState('');
-  const [country, setCountry] = useState('');
-  const [resources, setResources] = useState('');
-  const [title, setTitle] = useState('');
-  const [university, setUniversity] = useState('');
+  
+  const [formData, setFormData] = useState({
+    blog: '',
+    country: '',
+    resources: '',
+    title: '',
+    university: ''
+  });
 
   const handleDeleteBlog = async (id) => {
     try {
@@ -41,7 +44,9 @@ const MyBlogs = () => {
 
   const handleAddBlog = async (e) => {
     e.preventDefault();
-    if (blog && country && university && resources && title) {
+    const { blog, country, university, resources, title } = formData;
+
+    if (blog && country && university && title) {
       const newBlog = { blog, country, university, resources, title }; 
       try {
         const token = localStorage.getItem('token');
@@ -54,15 +59,11 @@ const MyBlogs = () => {
           body: JSON.stringify(newBlog),
         });
 
-        const data = await response.json();
         if (response.ok) {
+          const data = await response.json();
           setMyBlogs((prevBlogs) => [...prevBlogs, data]);
-  
-          setBlog('');
-          setCountry('');
-          setResources('');
-          setUniversity('');
-          setTitle('');
+          // Reset form
+          setFormData({ blog: '', country: '', resources: '', title: '', university: '' });
         } else {
           setError('Failed to add blog. Please try again later.');
         }
@@ -71,8 +72,13 @@ const MyBlogs = () => {
         setError('Failed to add blog. Please try again later.');
       }
     } else {
-      setError('Please fill in all fields.');
+      setError('Please fill in all required fields.');
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   return (
@@ -83,35 +89,40 @@ const MyBlogs = () => {
       <form onSubmit={handleAddBlog}>
         <input
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
           placeholder="Title"
           required
         />
         <input
           type="text"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
+          name="country"
+          value={formData.country}
+          onChange={handleChange}
           placeholder="Country"
           required
         />
         <textarea
-          value={blog}
-          onChange={(e) => setBlog(e.target.value)}
+          name="blog"
+          value={formData.blog}
+          onChange={handleChange}
           placeholder="Write your post here..."
           required
         />
         <input
           type="text"
-          value={university}
-          onChange={(e) => setUniversity(e.target.value)}
+          name="university"
+          value={formData.university}
+          onChange={handleChange}
           placeholder="University"
           required
         />
         <input
           type="text"
-          value={resources}
-          onChange={(e) => setResources(e.target.value)}
+          name="resources"
+          value={formData.resources}
+          onChange={handleChange}
           placeholder="Resources"
         />
         <button type="submit">Add Blog</button>
