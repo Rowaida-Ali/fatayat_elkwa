@@ -19,9 +19,20 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await fetch('http://localhost:3003/profile');
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3003/profile', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          
+          },
+        });
+          
+      
         if (response.ok) {
           const data = await response.json();
+          
           setProfileData(data);
         } else {
           console.error('Failed to fetch profile data');
@@ -38,10 +49,12 @@ const ProfilePage = () => {
 
   const saveProfile = async (updatedProfile) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3003/update_profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(updatedProfile),
       });
