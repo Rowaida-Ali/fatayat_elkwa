@@ -10,6 +10,7 @@ import EditBlog from './components/BlogForm/EditBlog';
 import Todolist from'./components/Todolist/Todolist'
 import MyBlogs from './components/BlogForm/MyBlogs';
 import Navbar from './components/Navbar/Navbar';
+import CreateNote from './components/CreateNote/NoteTaker';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -36,18 +37,19 @@ export default function App() {
       <BrowserRouter>
         <ConditionalNavbar />
         <Routes>
-  <Route path="/login" element={<LoginForm />} />
-  <Route path="/aboutpage" element={<Aboutpage />} />
-  <Route path="/signup" element={<SignupForm />} />
-  <Route path="/" element={<HomePage />} />
-  <Route path="/home" element={<HomePage />} /> 
-  <Route path="/profile" element={<ProfilePage />} />
-  <Route path="/studyabroad" element={<StudyAbroad blogs={blogs} setBlogs={setBlogs} />} />
-  <Route path="/blog-list" element={<StudyAbroadlist blogs={blogs} onDelete={handleDelete} />} />
-  <Route path="/edit/:id" element={<EditBlog blogs={blogs} onUpdate={handleUpdate} />} />
-  <Route path='/myblogs' element={<MyBlogs />} />
-  <Route path="/todo" element={<Todolist />} />
-</Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/aboutpage" element={<Aboutpage />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} /> 
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/studyabroad" element={<StudyAbroad blogs={blogs} setBlogs={setBlogs} />} />
+          <Route path="/blog-list" element={<StudyAbroadlist blogs={blogs} onDelete={handleDelete} />} />
+          <Route path="/edit/:id" element={<EditBlog blogs={blogs} onUpdate={handleUpdate} />} />
+          <Route path='/myblogs' element={<MyBlogs />} />
+          <Route path="/todo" element={<Todolist />} />
+          <Route path="/createnote" element={<CreateNote />} />
+        </Routes>
 
       </BrowserRouter>
     </div>
