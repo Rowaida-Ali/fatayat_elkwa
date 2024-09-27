@@ -5,11 +5,11 @@ Backend Documentation for StudyPuffs
 ## 1.Project Description:
 - **Sign up and Login page**: To store all the data of user.
 
-- **logout** : to logout 
+- **Logout** : to logout 
 
 - **Delete Account** : to delete account 
 
-- **profile & Edit profile** : user's profile (username, age, gender , school , email) , can edit (username,age,school,password)
+- **Profile & Edit profile** : user's profile (username, age, gender , school , email) , can edit (username,age,school,password)
 
 - **To_do lsit**: List for students to manage their tasks and  it has many routes (Add,Remove,View,edit,Complete).
 
@@ -19,7 +19,7 @@ Backend Documentation for StudyPuffs
 
 ## 2. Technologies Used:
 - **Framework** : Flask
-- **Dtabase** : SQlite 
+- **Database** : SQlite 
 - **ORM** : SQlAlchemy
 - **Authentication** : JWT
 - **Password Hashing** : Bcrypt
@@ -52,7 +52,7 @@ Endpoint : `/edit_profile`
 - **TO_DO LIST Endpoints**:
 1. **Add**:
 Method:POST ,
-Endpoint= `/add_task`
+Endpoint: `/add_task`
 2. **Remove**:
 Method:DELETE ,
 Endpoint:`/remove_task`
@@ -61,7 +61,7 @@ Method:PUT ,
 Endpoint:`/edit_task`
 4. **View**:
 Method:GET ,
-Endpoint=`/view_tasks`
+Endpoint:`/view_tasks`
 5. **Completed**:
 Method:PUT ,
 Endpoint:`/completed_tasks`

@@ -58,6 +58,8 @@ def login():
             expires_delta=timedelta(weeks=52),
         )
         return jsonify(access_token=access_token), 200
+    if not user :
+        return jsonify ("User not found ") , 401 
     return jsonify({"msg": "Invalid email or password"}), 401
 
 
@@ -130,8 +132,8 @@ def remove_task():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    task_remove = json["task_remove"]
-    task = Task.query.filter_by(your_work=task_remove, user_id=user.id).first()
+    title = json["title"]
+    task = Task.query.filter_by(title=title, user_id=user.id).first()
     if task:
         db.session.delete(task)
         db.session.commit()
