@@ -1,8 +1,8 @@
 import './App.css';
 import LoginForm from './components/LoginForm/LoginForm';
-import Aboutpage from './components/Aboutpage/aboutpage.jsx';
+import Aboutpage from './components/Aboutpage/Aboutpage.jsx';
 import SignupForm from './components/SignupForm/SignupForm';
-import HomePage from './components/Homepage/homepage.jsx';
+import HomePage from './components/Homepage/Homepage.jsx';
 import ProfilePage from './components/profilepage/Profile';
 import StudyAbroad from './components/BlogForm/StudyAbroad';
 import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
