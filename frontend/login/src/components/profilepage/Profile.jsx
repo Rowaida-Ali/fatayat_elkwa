@@ -50,14 +50,19 @@ const ProfilePage = () => {
   const saveProfile = async (updatedProfile) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3003/update_profile', {
+      const response = await fetch('http://localhost:3003/edit_profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedProfile),
+        body: JSON.stringify({
+          age:updatedProfile.age,
+          school:updatedProfile.school,
+          gender:updatedProfile.gender}),
+
       });
+  
 
       if (response.ok) {
         const data = await response.json();
@@ -147,11 +152,12 @@ const ProfilePage = () => {
             Log Out
           </button>
         </div>
+        
       ) : (
         <EditPage profile={profileData} onSave={saveProfile} onCancel={cancelEditing} />
       )}
 
-      {showDeleteConfirm && (
+        {showDeleteConfirm && (
         <div className="delete-confirmation">
           <h3>Confirm Account Deletion</h3>
           <p>Please enter your password to confirm:</p>
@@ -167,6 +173,5 @@ const ProfilePage = () => {
       )}
     </div>
   );
-};
-
+}
 export default ProfilePage;

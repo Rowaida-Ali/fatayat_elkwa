@@ -29,12 +29,18 @@ const EditPage = ({ profile, onSave, onCancel }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch('http://localhost:3003/edit-profile', {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3003/edit_profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedProfile),
+        body: JSON.stringify({
+          age:updatedProfile.age,
+          school:updatedProfile.school,
+          gender:updatedProfile.gender}),
+
       });
 
       if (!response.ok) {

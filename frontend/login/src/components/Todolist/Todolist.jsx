@@ -31,15 +31,18 @@ function Todolist() {
         if (taskTitleInput.trim() && taskInput.trim()) {
             try {
                 const token = localStorage.getItem('token');
+  
                 const response = await fetch('http://localhost:3003/add_task', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json',
                               'Authorization': `Bearer ${token}`,
-                    body: JSON.stringify({
+                },
+
+                    body : JSON.stringify({
                         title: taskTitleInput,
                         text: taskInput
                     }),
-                });
+                });        
                 if (!response.ok) {
                     console.error(`Failed to add task: HTTP error! Status: ${response.status}`);
                     return;
@@ -61,10 +64,11 @@ function Todolist() {
              const token = localStorage.getItem('token');
             await fetch(`http://localhost:3003/remove_task`, {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json' ,
                             'Authorization': `Bearer ${token}`,
-
+    
                 body: JSON.stringify({ id })
+                }
             });
             setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
         } catch (error) {
@@ -83,8 +87,9 @@ function Todolist() {
                 const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:3003/edit_task', {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json' ,
                                'Authorization': `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         id: editTaskId,
                         text: editInput
