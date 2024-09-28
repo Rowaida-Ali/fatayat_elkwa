@@ -33,15 +33,16 @@ const TodoList = () => {
     fetchTasks();
   };
   
-  const deleteTask = async () => {
-    await fetch(`http://localhost:3003/delete_task`, {
+  const deleteTask = async (id) => {
+    await fetch(`http://localhost:3003/delete_task/${id}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer $('token'}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
     fetchTasks();
   };
+  
 
   return (
     <div>

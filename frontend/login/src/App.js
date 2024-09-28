@@ -1,8 +1,8 @@
 import './App.css';
 import LoginForm from './components/LoginForm/LoginForm';
-import Aboutpage from './components/Aboutpage/Aboutpage';
+import Aboutpage from './components/Aboutpage/aboutpage.jsx';
 import SignupForm from './components/SignupForm/SignupForm';
-import HomePage from './components/Homepage/Homepage';
+import HomePage from './components/Homepage/homepage.jsx';
 import ProfilePage from './components/profilepage/Profile';
 import StudyAbroad from './components/BlogForm/StudyAbroad';
 import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
@@ -36,17 +36,17 @@ export default function App() {
       <BrowserRouter>
         <ConditionalNavbar />
         <Routes>
-          <Route path="/login" element={<ProtectedRoute><LoginForm /></ProtectedRoute>} />
-          <Route path="/aboutpage" element={<ProtectedRoute><Aboutpage /></ProtectedRoute>} />
-          <Route path="/signup" element={<ProtectedRoute><SignupForm /></ProtectedRoute>} />
-          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-          <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} /> 
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="/studyabroad" element={<ProtectedRoute><StudyAbroad blogs={blogs} setBlogs={setBlogs} /></ProtectedRoute>} />
-          <Route path="/blog-list" element={<ProtectedRoute><StudyAbroadlist blogs={blogs} onDelete={handleDelete} /></ProtectedRoute>} />
-          <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} />
-          <Route path='/myblogs' element={<ProtectedRoute><MyBlogs blogs={blogs} onDelete={handleDelete} onUpdate={handleUpdate} /></ProtectedRoute>} />
-          <Route path="/todo" element={<ProtectedRoute><Todolist /></ProtectedRoute>} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/aboutpage" element={<ProtectedRoute protect={<Aboutpage />} />} />
+          <Route path="/signup" element={<ProtectedRoute protect={<SignupForm />} />} />
+          <Route path="/" element={<ProtectedRoute protect={<HomePage />} />} />
+          <Route path="/home" element={<ProtectedRoute protect={<HomePage />} />} /> 
+          <Route path="/profile" element={<ProtectedRoute protect={<ProfilePage />} />} />
+          <Route path="/studyabroad" element={<ProtectedRoute protect={<StudyAbroad blogs={blogs} setBlogs={setBlogs} />} />} />
+          <Route path="/blog-list" element={<ProtectedRoute protect={<StudyAbroadlist blogs={blogs} onDelete={handleDelete} />} />} />
+          <Route path="/edit/:id" element={<ProtectedRoute protect={<EditBlog blogs={blogs} onUpdate={handleUpdate} />} />} />
+          <Route path='/myblogs' element={<ProtectedRoute protect={<MyBlogs blogs={blogs} onDelete={handleDelete} onUpdate={handleUpdate} />} />} />
+          <Route path="/todo" element={<ProtectedRoute protect={<Todolist />} />} />
         </Routes>
       </BrowserRouter>
     </div>
