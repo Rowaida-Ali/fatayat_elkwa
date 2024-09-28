@@ -189,7 +189,7 @@ def taking_notes():
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
     note = Note(
-        your_note=json["your_note"],
+        note=json["note"],
         secret=json["secret"],
         title_notes=json["title"],
         user_id=user.id,
@@ -288,8 +288,8 @@ def remove_blog():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    blog_removed = json["blog_removed"]
-    removed = Abroad_blogs.query.filter_by(blog=blog_removed, user_id=user.id).first()
+    blog_title = json["title"]
+    removed = Abroad_blogs.query.filter_by(blog_title=blog_title , user_id=user.id).first()
     if removed:
         db.session.delete(removed)
         db.session.commit()
