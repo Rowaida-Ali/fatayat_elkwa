@@ -207,7 +207,7 @@ def edit_note():
     user = User.query.filter_by(email=current_user_email).first()
     title_notes = json["title"]
     note_edited = Note.query.filter_by(title_notes=title_notes, user_id=user.id).first()
-    note_edited.your_note = json["your_note"]
+    note_edited.your_note = json["note"]
     note_edited.secret = json["secret"]
     db.session.commit()
     return jsonify("edited"), 200
@@ -239,7 +239,7 @@ def remove_note():
 @app.route("/get_public_notes", methods=["GET"])
 def get_notes():
     view_all = Note.query.filter_by(secret=False).all()
-    lst = [[note.your_note, note.title] for note in view_all]
+    lst = [[note.your_note, note.title_notes] for note in view_all]
     return jsonify({" All the notes": lst})
 
 
@@ -288,8 +288,8 @@ def remove_blog():
     json = request.get_json()
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    blog_title = json["title"]
-    removed = Abroad_blogs.query.filter_by(blog_title=blog_title , user_id=user.id).first()
+    title_blog = json["title"]
+    removed = Abroad_blogs.query.filter_by(title_blog=title_blog, user_id=user.id).first()
     if removed:
         db.session.delete(removed)
         db.session.commit()
@@ -308,7 +308,7 @@ def view_blog():
         user_blog = User.query.filter_by(id=blog.user_id).first()
         blogs_view = {
             "username": user_blog.username,
-            "title": blog.title,
+            "title": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
             "university": blog.university,
@@ -328,7 +328,7 @@ def my_blogs():
     for blog in blogs:
         blogs_view = {
             "username": user.username,
-            "title_blog": blog.title,
+            "title_blog": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
             "university": blog.university,
