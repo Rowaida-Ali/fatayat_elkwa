@@ -5,7 +5,7 @@ function Todolist() {
     const [tasks, setTasks] = useState([]);
     const [taskTitleInput, setTaskTitleInput] = useState('');
     const [taskInput, setTaskInput] = useState('');
-    const [editTaskId, setEditTaskId] = useState(null);
+    const [editTaskTitle, setEditTaskTitle] = useState(null);
     const [editInput, setEditInput] = useState('');
 
     useEffect(() => {
@@ -14,14 +14,28 @@ function Todolist() {
 
     const fetchTasks = async () => {
         try {
-           
-            const response = await fetch('http://localhost:3003/tasks'); 
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:3003/view_tasks',{
+                headers: { 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,}
+            }); 
             if (!response.ok) {
               
                 return;
             }
             const data = await response.json();
-            setTasks(data);
+            const allTasks= data.map(innerArray => {
+                if (innerArray.length >= 2) {
+                    return {
+                        title: innerArray[0],
+                        text: innerArray[1],
+                    };
+                }
+                return null; 
+            }).filter(Boolean); 
+         setTasks(allTasks);
+            console.log(tasks)
+            console.log(allTasks)
         } catch (error) {
             console.error('Failed to fetch tasks:', error);
         }
@@ -48,7 +62,7 @@ function Todolist() {
                     return;
                 }
                 const newTask = await response.json();
-                setTasks(prevTasks => [...prevTasks, newTask]);
+                // setTasks(prevTasks => [...prevTasks, newTask]);
                 setTaskTitleInput('');
                 setTaskInput('');
             } catch (error) {
@@ -59,25 +73,27 @@ function Todolist() {
         }
     };
 
-    const deleteTask = async (id) => {
+    const deleteTask = async (title) => {
         try {
              const token = localStorage.getItem('token');
+             console.log(title)
             await fetch(`http://localhost:3003/remove_task`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' ,
                             'Authorization': `Bearer ${token}`,
+                },
     
-                body: JSON.stringify({ id })
-                }
+                body: JSON.stringify({ title })
+                
             });
-            setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+            // setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
         } catch (error) {
             console.error('Failed to delete task:', error);
         }
     };
 
     const startEditing = (task) => {
-        setEditTaskId(task.id);
+        setEditTaskTitle(task.title); // Set title for the task being edited
         setEditInput(task.text);
     };
 
@@ -89,19 +105,23 @@ function Todolist() {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' ,
                                'Authorization': `Bearer ${token}`,
+            
                     },
                     body: JSON.stringify({
-                        id: editTaskId,
+                        title: editTaskTitle, // Use title for the task being edited
                         text: editInput
                     }),
                 });
+                
                 if (!response.ok) {
-                    console.error(`Failed to update task: HTTP error! Status: ${response.status}`);
+                    console.error("Failed to update task:");
                     return;
                 }
                 const updatedTask = await response.json();
-                setTasks(prevTasks => prevTasks.map(task => (task.id === editTaskId ? { ...task, text: updatedTask.text } : task)));
-                setEditTaskId(null);
+                setTasks(prevTasks => prevTasks.map(task => 
+                    task.title === editTaskTitle ? { ...task, text: updatedTask.text } : task
+                ));
+                setEditTaskTitle(''); // Clear the title used for editing
                 setEditInput('');
             } catch (error) {
                 console.error('Failed to update task:', error);
@@ -110,7 +130,6 @@ function Todolist() {
             alert('Please enter a task to save.');
         }
     };
-
     return (
         <div className="container">
             <h1>My To-Do List</h1>
@@ -132,7 +151,7 @@ function Todolist() {
             <ul>
                 {tasks.map(task => (
                     <li key={task.id}>
-                        {editTaskId === task.id ? (
+                        {editTaskTitle=== task.title ? (
                             <div>
                                 <label>Task</label>
                                 <input
@@ -147,7 +166,7 @@ function Todolist() {
                             <span>
                                 <strong>{task.title}</strong>: {task.text}
                                 <button onClick={() => startEditing(task)}>Edit</button>
-                                <button onClick={() => deleteTask(task.id)}>Delete</button>
+                                <button onClick={() => deleteTask(task.title)}>Delete</button>
                             </span>
                         )}
                     </li>

@@ -13,22 +13,50 @@ const MyBlogs = () => {
   const [title, setTitle] = useState('');
   const [university, setUniversity] = useState('');
   // const [username, setUsername] = useState('');
+const [allBlogs,setAllBlogs]=useState([])
+useEffect(() => {
+  const fetchMyBlogs = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3003/view_my_blogs`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      console.log(data);
+      setMyBlogs(data);
+    } catch (error) {
+      console.error('Error fetching my blogs:', error);
+      setError('Failed to load your blogs. Please try again later.');
+    }
+  };
 
-  useEffect(() => {
-    const fetchMyBlogs = async () => {
-      try {
-        const response = await fetch('http://localhost:3003/view_my_blogs');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        setMyBlogs(data);
-      } catch (error) {
-        console.error('Error fetching my blogs:', error);
-        setError('Failed to load your blogs. Please try again later.');
-      }
-    };
+  const fetchAllBlogs = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:3003/view_all_blogs`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      console.log(data);
+      setAllBlogs(data);
+    } catch (error) {
+      console.error('Error fetching all blogs:', error);
+      setError('Failed to load blogs. Please try again later.');
+    }
+  };
 
-    fetchMyBlogs();
-  }, []);
+  fetchMyBlogs();
+  fetchAllBlogs();
+}, []);
+
 
   const handleDeleteBlog = async (id) => {
     try {
@@ -87,7 +115,7 @@ const MyBlogs = () => {
 
   return (
     <div>
-      <h1>My Blogs</h1>
+      <h1>Add Blog</h1>
       {error && <p className="error-message">{error}</p>}
       
       <form onSubmit={handleAddBlog}>
@@ -126,11 +154,24 @@ const MyBlogs = () => {
         />
         <button type="submit">Add Blog</button>
       </form>
-
+   
+      <h1>My Blogs</h1>
       <div className="blog-list">
         {myBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3>{blog.title} ({blog.country})</h3>
+            <h3>{blog.title_blog} ({blog.country}  {blog.university}   {blog.resources})</h3>
+            <button onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
+            <Link to={`/edit/${blog.id}`}>
+              <button>Edit</button>
+            </Link>
+          </div>
+        ))}
+      </div>
+      <h1>All blogs</h1>
+      <div className="allblog-list">
+        {allBlogs.map((blog) => (
+          <div key={blog.id} className="blog-item">
+            <h3>{blog.title_blog} ({blog.country}  {blog.university}   {blog.resources})</h3>
             <button onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
             <Link to={`/edit/${blog.id}`}>
               <button>Edit</button>

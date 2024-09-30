@@ -17,6 +17,7 @@ const StudyAbroadlist = ({ blogs }) => {
             localStorage.setItem('token', data.access_token);
         }
         setFetchedBlogs(data);
+        console.log(data)
       } catch (error) {
         console.error('Failed to fetch blogs:', error);
         setError('Failed to load blogs. Please try again later.');
