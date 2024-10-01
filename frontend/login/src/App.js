@@ -11,6 +11,7 @@ import Todolist from './components/Todolist/Todolist';
 import MyBlogs from './components/BlogForm/MyBlogs';
 import Navbar from './components/Navbar/Navbar';
 import ProtectedRoute from './components/ProtectedRoute'; 
+import CreateNote from './components/CreateNote/NoteTaker';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} />
           <Route path='/myblogs' element={<ProtectedRoute><MyBlogs /></ProtectedRoute>} />
           <Route path="/todo" element={<ProtectedRoute><Todolist /></ProtectedRoute>} />
+          <Route path='/notes' element={<ProtectedRoute><CreateNote></CreateNote></ProtectedRoute>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

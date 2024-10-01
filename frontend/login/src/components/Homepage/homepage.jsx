@@ -11,6 +11,9 @@ const HomePage = () => {
     }
     const handleStudyAbroadClick = () => {
         navigate('/studyabroad');
+    }
+    const handleTakingnotesClick = () => {
+        navigate('/notes');
     };
 
     return (
@@ -19,7 +22,7 @@ const HomePage = () => {
             <div className='content'>
                 <button type='button'onClick={handelTodoListclick}>TO-DO List</button>
                 <button type='button' onClick={handleStudyAbroadClick}>Study Abroad</button>
-                <button type='button'>Taking Notes</button>
+                <button type='button' onClick={handleTakingnotesClick}>Taking Notes</button>
             </div>
         </div>
     );

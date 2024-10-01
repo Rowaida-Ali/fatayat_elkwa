@@ -58,20 +58,19 @@ useEffect(() => {
 }, []);
 
 
-  const handleDeleteBlog = async (id) => {
+  const handleDeleteBlog = async (title) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3003/remove_blog`, {
+      const response = await fetch('http://localhost:3003/remove_blog', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({title: title }),
       });
-
       if (response.ok) {
-        setMyBlogs((prevBlogs) => prevBlogs.filter(blog => blog.id !== id));
+        setMyBlogs((prevBlogs) => prevBlogs.filter(blog => blog.title !== title));
       } else {
         throw new Error('Failed to delete blog');
       }
@@ -112,7 +111,7 @@ useEffect(() => {
       setError('Please fill in all fields.');
     }
   };
-
+  
   return (
     <div>
       <h1>Add Blog</h1>
@@ -159,22 +158,22 @@ useEffect(() => {
       <div className="blog-list">
         {myBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3>{blog.title_blog} ({blog.country}  {blog.university}   {blog.resources})</h3>
-            <button onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
-            <Link to={`/edit/${blog.id}`}>
+            <h3> Title:{blog.title} Country:{blog.country} University: {blog.university} Resources:{blog.resources} Blog:{blog.blog}</h3>
+            <button onClick={() => handleDeleteBlog(blog.title)}>Delete</button>
+            <Link to={`/edit/${blog.title}`}>
               <button>Edit</button>
             </Link>
           </div>
         ))}
       </div>
       <h1>All blogs</h1>
-      <div className="allblog-list">
+      <div className="contaienr">
         {allBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3>{blog.title_blog} ({blog.country}  {blog.university}   {blog.resources})</h3>
-            <button onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
+            <h3> Title: {blog.title} Country:{blog.country} University: {blog.university}  Resource: {blog.resources} Blog:{blog.blog}</h3>
+            {/* <button onClick={() => handleDeleteBlog(blog.title)}>Delete</button> */}
             <Link to={`/edit/${blog.id}`}>
-              <button>Edit</button>
+              {/* <button>Edit</button> */}
             </Link>
           </div>
         ))}
