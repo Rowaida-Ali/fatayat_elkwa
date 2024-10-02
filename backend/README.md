@@ -44,11 +44,11 @@ Endpoint : `/login`
 
 3. **Logout** :
 Method : POST ,
-Endpoint : `/Logout`
+Endpoint : `/logout`
 
 3. **Delete Account** :
 Method : DELETE ,
-Endpoint : `/delete account`
+Endpoint : `/delete_account`
 
 4. **Search** :
 Method : GET ,
@@ -73,7 +73,7 @@ Method:GET ,
 Endpoint:`/view_tasks`
 5. **Completed**:
 Method:PUT ,
-Endpoint:`/completed_tasks`
+Endpoint:`/completed_task`
 
 - **Notes Endpoints**:
 1. **Add**:
