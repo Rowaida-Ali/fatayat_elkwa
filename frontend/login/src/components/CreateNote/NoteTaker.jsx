@@ -4,7 +4,7 @@ import './NoteTaker.css';
 
 
 const CreateNote = () => {
-  const [title, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
   const [secret, setSecret]=useState(true);
   const [error, setError] = useState('');
@@ -28,8 +28,8 @@ const CreateNote = () => {
       });
       const data = await response.json();
       console.log(data)
-      console.log(JSON.stringify({ title,note ,secret}))
-      setName('')
+      // console.log(JSON.stringify({ title,note ,secret}))
+      setTitle('')
       setNote('')
       setSecret(true)
     } catch (error){
@@ -37,8 +37,10 @@ const CreateNote = () => {
     }
   };
 
-  const deletenote = async (note) => {
+  const deletenote = async (title) => {
     try {
+        console.log(title);
+        const deleted = title;
         const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:3003/remove_note', {
             method: 'DELETE',
@@ -46,9 +48,9 @@ const CreateNote = () => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({  title }), 
+            body: JSON.stringify({  title:deleted }), 
         });
-
+        console.log(deleted);
         if (response.ok) {
             setMyNotes((prevNotes) => prevNotes.filter(n => n.title !== note.title)); 
         } else {
@@ -74,18 +76,18 @@ const fetchMyNotes = async () => {
     
     const data = await response.json();
     console.log(data)
-    const allNotes= data.map(innerArray => {
+    const Notes= data.map(innerArray => {
         if (innerArray.length >= 2) {
             return {
-                title: innerArray[0],
-                note: innerArray[1],
+              note: innerArray[0],
+              title: innerArray[1],
             };
         }
         return null; 
     }).filter(Boolean); 
-    setMyNotes(allNotes); 
-    console.log(data)
-    console.log(allNotes)
+    setMyNotes(Notes); 
+    console.log(data);
+    console.log(mynotes);
 
   } catch (error) {
     console.error('Error fetching my notes:', error);
@@ -95,6 +97,8 @@ const fetchMyNotes = async () => {
 
 useEffect(() => {
   fetchMyNotes();
+  fetchAllNotes();
+  // localStorage.removeItem('token');
 }, []);
 
 const fetchAllNotes = async () => {
@@ -115,25 +119,21 @@ const fetchAllNotes = async () => {
     const Notes= data.map(innerArray => {
         if (innerArray.length >= 2) {
             return {
-                title: innerArray[0],
-                note: innerArray[1],
+                note: innerArray[0],
+                title: innerArray[1],
             };
         }
         return null; 
     }).filter(Boolean); 
     setAllNotes(Notes); 
-    console.log(data)
-    console.log(Notes)
+    // console.log(data)
+    console.log(allnotes);
 
   } catch (error) {
     console.error('Error fetching my notes:', error);
     setError('Failed to load your notes. Please try again later.');
   }
 };
-
-useEffect(() => {
-  fetchAllNotes();
-}, []);
 
 
   return (
@@ -145,7 +145,7 @@ useEffect(() => {
           type="text" 
           placeholder="Enter the title" 
           value={title} 
-          onChange={(e) => setName(e.target.value)} 
+          onChange={(e) => setTitle(e.target.value)} 
           required 
         />
           <input 
@@ -156,35 +156,34 @@ useEffect(() => {
           required 
         />
         </div>
+        </form>
         <div className="public-private">
            <label><input type="checkbox" checked={secret} onChange={handleCheckboxChange}/>Secret</label>
            <button  
             type="button" 
             className="action-button" 
             onClick={handleSubmit}> Submit</button>
-            <button onClick={()=> deletenote(note.title)}>Delete</button>
           </div>
           <h1>My notes</h1>        
-            <div className='note-list'>
-    {mynotes.map((note) => (
-        <div key={note.title} className='note_item'>
-            <h3>{note.title}: {note.note}</h3> 
-            <button onClick={() => deletenote(note)}>Delete</button> 
-           </div>
-           
-      ))}
-      </div>
-      <h1>All notes</h1>
-      <div className='note-list'>
-          {allnotes.map((note) => (
-              <div key={note.title} className='note_item'>
-                  <h3>{note.title}: {note.note}</h3> 
-                  <button onClick={() => deletenote(note)}>Delete</button> 
-                </div>
-    ))},
-    </div>
+          <div className='note-list'>
+          {mynotes.map((note) => (
+            <div key={note.title} className='note_item'>
+                <h3>{note.title}: {note.note}</h3> 
+                <button onClick={() => deletenote(note.title)}>Delete</button> 
+              </div>
+              
+          ))}
+          </div>
+          <h1>All notes</h1>
+          <div className='note-list'>
+              {allnotes.map((note) => (
+                  <div key={note.title} className='note_item'>
+                      <h3>{note.title}: {note.note}</h3> 
+                    </div>
+              ))},
+          </div>
         
-      </form>
+      
     </div>
   );
 }
