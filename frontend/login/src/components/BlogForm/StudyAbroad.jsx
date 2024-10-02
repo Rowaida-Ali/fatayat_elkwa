@@ -132,7 +132,7 @@ useEffect(() => {
           placeholder="Country"
           required
         />
-        <textarea
+        <input
           value={blog}
           onChange={(e) => setBlog(e.target.value)}
           placeholder="Write your post here..."
