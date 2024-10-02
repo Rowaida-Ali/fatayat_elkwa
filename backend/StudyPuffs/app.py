@@ -189,7 +189,7 @@ def taking_notes():
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
     note = Note(
-        note=json["note"],
+       your_note=json["note"],
         secret=json["secret"],
         title_notes=json["title"],
         user_id=user.id,
@@ -220,27 +220,29 @@ def view():
     user = User.query.filter_by(email=current_user_email).first()
     noted = Note.query.filter_by(secret=True, user_id=user.id)
     notes = [[note.your_note, note.title_notes] for note in noted]
-    return jsonify({"your_note": notes})
+    return jsonify( notes)
 
 
 @app.route("/remove_note", methods=["DELETE"])
 @jwt_required()
-def remove_note():
+def removednote():
     json = request.get_json()
-    title_notes = json["title"]
+    title_notes = json.get("title")
     current_user_email = get_jwt_identity()
     user = User.query.filter_by(email=current_user_email).first()
-    note = Note.query.filter_by(title_notes=title_notes, user_id=user.id).first()
-    db.session.delete(note)
-    db.session.commit()
-    return jsonify("Note Deleted"), 200
+    removenote = Note.query.filter_by(title_notes=title_notes, user_id=user.id).first()
+    if removenote:
+        db.session.delete(removenote)
+        db.session.commit()
+        return jsonify("Note Deleted"), 200
+    return jsonify("not found"),404
 
 
 @app.route("/get_public_notes", methods=["GET"])
 def get_notes():
     view_all = Note.query.filter_by(secret=False).all()
     lst = [[note.your_note, note.title_notes] for note in view_all]
-    return jsonify({" All the notes": lst})
+    return jsonify( lst)
 
 
 @app.route("/add_blog", methods=["POST"])
@@ -293,7 +295,7 @@ def remove_blog():
     if removed:
         db.session.delete(removed)
         db.session.commit()
-        return jsonify("Bloged removed")
+        return jsonify("Bloged removed"),200
     return jsonify("not found"), 404
 
 
@@ -307,7 +309,7 @@ def view_blog():
     for blog in view_blogs:
         user_blog = User.query.filter_by(id=blog.user_id).first()
         blogs_view = {
-            "username": user_blog.username,
+            "username": user.username,
             "title": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
@@ -328,7 +330,7 @@ def my_blogs():
     for blog in blogs:
         blogs_view = {
             "username": user.username,
-            "title_blog": blog.title_blog,
+            "title": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
             "university": blog.university,
