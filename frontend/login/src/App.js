@@ -5,10 +5,10 @@ import SignupForm from './components/SignupForm/SignupForm';
 import HomePage from './components/Homepage/homepage';
 import ProfilePage from './components/profilepage/Profile';
 import StudyAbroad from './components/BlogForm/StudyAbroad';
-import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
-import EditBlog from './components/BlogForm/EditBlog';
+// import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
+// import EditBlog from './components/BlogForm/EditBlog';
 import Todolist from './components/Todolist/Todolist';
-import MyBlogs from './components/BlogForm/MyBlogs';
+// import MyBlogs from './components/BlogForm/MyBlogs';
 import Navbar from './components/Navbar/Navbar';
 import ProtectedRoute from './components/ProtectedRoute'; 
 import CreateNote from './components/CreateNote/NoteTaker';
@@ -45,9 +45,9 @@ export default function App() {
           <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} /> 
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/studyabroad" element={<ProtectedRoute><StudyAbroad blogs={blogs} setBlogs={setBlogs} /></ProtectedRoute>} />
-          <Route path="/blog-list" element={<ProtectedRoute><StudyAbroadlist blogs={blogs} onDelete={handleDelete} /></ProtectedRoute>} />
-          <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} />
-          <Route path='/myblogs' element={<ProtectedRoute><MyBlogs /></ProtectedRoute>} />
+          {/* <Route path="/blog-list" element={<ProtectedRoute><StudyAbroadlist blogs={blogs} onDelete={handleDelete} /></ProtectedRoute>} /> */}
+          {/* <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} /> */}
+          {/* <Route path='/myblogs' element={<ProtectedRoute><MyBlogs /></ProtectedRoute>} /> */}
           <Route path="/todo" element={<ProtectedRoute><Todolist /></ProtectedRoute>} />
           <Route path='/notes' element={<ProtectedRoute><CreateNote></CreateNote></ProtectedRoute>}></Route>
         </Routes>

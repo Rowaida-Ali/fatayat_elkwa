@@ -179,7 +179,9 @@ const fetchAllNotes = async () => {
               {allnotes.map((note) => (
                   <div key={note.title} className='note_item'>
                       <h3>{note.title}: {note.note}</h3> 
+                      <hr></hr>
                     </div>
+                   
               ))},
           </div>
         

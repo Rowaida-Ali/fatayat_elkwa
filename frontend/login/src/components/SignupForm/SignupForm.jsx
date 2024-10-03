@@ -137,7 +137,11 @@ const SignupForm = () => {
                         </select>
                     </div>
                     <button type="submit">SignUp</button>
+                    
+                    <h4>
                     <p>Already have an account? <a href='/login'>Login</a></p>
+                    </h4>
+                    {/* <p>Already have an account? <a href='/login'>Login</a></p> */}
                 </form>
             </div>
         </div>

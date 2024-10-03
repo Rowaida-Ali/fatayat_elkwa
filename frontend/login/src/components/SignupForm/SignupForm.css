@@ -1,8 +1,8 @@
 .signup-wrapper {
     width: 420px;
     margin: auto;
-    background: #fca389;
-    color: #fff;
+    background:  #FFF9;
+    color: #100f0f;
     border-radius: 10px;
     padding: 100px 50px;
 }
@@ -10,7 +10,7 @@
 .signup-wrapper h1 {
     font-size: 36px;
     text-align: center;
-    color: #fff; 
+    color: #121111; 
 }
 
 .signup-wrapper .input-box {
@@ -24,7 +24,7 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #fff; 
+    color: #110e0e; 
 }
 
 .input-box input {
@@ -32,16 +32,16 @@
     height: 100%;
     background: transparent;
     outline: none;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(21, 19, 19, 0.2);
     border-radius: 40px;
     font-size: 16px;
-    color: #fff;
+    color: #111010;
     padding: 20px 45px 20px 20px;
     margin: auto;
 }
 
 .input-box input::placeholder {
-    color: #fff; 
+    color: #9f9f9f; 
 }
 
 .signup-wrapper button {
@@ -74,9 +74,9 @@
     height: 50px; 
     background: transparent; 
     padding: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 40px; 
-    color: #fff;
+    color: #0c0a0a;
     outline: none;
 }
 
@@ -106,9 +106,9 @@ select:focus {
     height: 50px; 
     background: transparent; 
     padding: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 40px; 
-    color: #fff; 
+    color: #9f9f9f; 
     outline: none;
 }
 

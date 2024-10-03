@@ -62,6 +62,7 @@ function Todolist() {
                     return;
                 }
                 const newTask = await response.json();
+                fetchTasks();
                 // setTasks(prevTasks => [...prevTasks, newTask]);
                 setTaskTitleInput('');
                 setTaskInput('');

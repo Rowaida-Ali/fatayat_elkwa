@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fca389;
+  background-color: #4f8893;
   padding: 10px 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   position: fixed; 
@@ -14,7 +14,7 @@
 }
 
 .navbar:hover {
-  background-color: #fca389; 
+  background-color: #82a3aa; 
 }
 
 body {

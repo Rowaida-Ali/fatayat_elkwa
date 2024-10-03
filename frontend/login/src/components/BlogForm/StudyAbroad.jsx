@@ -158,11 +158,13 @@ useEffect(() => {
       <div className="blog-list">
         {myBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3> Title:{blog.title} Country:{blog.country} University: {blog.university} Resources:{blog.resources} Blog:{blog.blog}</h3>
+            <ul>Title:{blog.title}</ul>
+            <ul>University:{blog.university}</ul>
+            <ul>Country:{blog.country}</ul>
+            <ul>Resources:{blog.resources}</ul>
+            <ul>Blog:{blog.blog}</ul>
+            
             <button onClick={() => handleDeleteBlog(blog.title)}>Delete</button>
-            <Link to={`/edit/${blog.title}`}>
-              <button>Edit</button>
-            </Link>
           </div>
         ))}
       </div>
@@ -170,7 +172,12 @@ useEffect(() => {
       <div className="contaienr">
         {allBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <h3> Title: {blog.title} Country:{blog.country} University: {blog.university}  Resource: {blog.resources} Blog:{blog.blog}</h3>
+            <ul>Title:{blog.title}</ul>
+            <ul>University:{blog.university}</ul>
+            <ul>Country:{blog.country}</ul>
+            <ul>Resources:{blog.resources}</ul>
+            <ul>Blog:{blog.blog}</ul>
+            {/* <h3> Title: {blog.title} Country:{blog.country} University: {blog.university}  Resource: {blog.resources} Blog:{blog.blog}</h3> */}
             {/* <button onClick={() => handleDeleteBlog(blog.title)}>Delete</button> */}
             <Link to={`/edit/${blog.id}`}>
               {/* <button>Edit</button> */}

@@ -38,7 +38,7 @@
 
 .home {
     width: 420px;
-    background: linear-gradient(135deg, #fca389, #fcbf8c); 
+    background: #FFF9; 
     color: #fff;
     border-radius: 10px;
     padding: 30px 40px;
@@ -55,7 +55,7 @@
     text-align: center;
     margin-bottom: 20px; 
     text-shadow: 1px 1px 2px #00000033; 
-    color: #ffffff; /* Change title color to white */
+    color: #333333; /* Change title color to white */
 }
 
 .home button { 

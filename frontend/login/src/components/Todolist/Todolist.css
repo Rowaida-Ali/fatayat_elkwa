@@ -21,15 +21,15 @@ input {
 
 button {
     padding: 10px 15px;
-    background-color: #4CAF50;
+    background-color: #1f221f;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0e100e;
 }
 
 ul {

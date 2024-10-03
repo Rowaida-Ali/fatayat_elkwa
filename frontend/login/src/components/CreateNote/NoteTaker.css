@@ -21,7 +21,7 @@ input {
 
 button {
     padding: 10px 15px;
-    background-color: #4CAF50;
+    background-color: #8e959c;
     color: white;
     border: none;
     border-radius: 4px;
@@ -29,7 +29,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #1e241e;
 }
    .container .public-private{
   display: flex;

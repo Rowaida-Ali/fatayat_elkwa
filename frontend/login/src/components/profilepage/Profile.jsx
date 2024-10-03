@@ -142,6 +142,7 @@ const ProfilePage = () => {
           <p><strong>School:</strong> {profileData.school}</p> 
           <p><strong>Email:</strong> {profileData.email}</p> 
           <p><strong>Gender:</strong> {profileData.gender}</p> 
+          <li>
           <button className="edit-button" onClick={startEditing}>
             Edit Profile
           </button>
@@ -151,6 +152,7 @@ const ProfilePage = () => {
           <button className="logout-button" onClick={handleLogout}>
             Log Out
           </button>
+          </li>
         </div>
         
       ) : (

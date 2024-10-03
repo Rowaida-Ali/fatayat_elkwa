@@ -7,8 +7,8 @@
   border: none;
   padding: 20px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #fca389, #fcbf8c);
-  color: #fff;
+  background-color:  #FFF9;
+  color: #0d0c0c;
   width: 300px;
   margin: 0 auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
