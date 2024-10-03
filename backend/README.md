@@ -22,18 +22,36 @@ Backend Documentation for StudyPuffs
 - **Database** : SQlite 
 - **ORM** : SQlAlchemy
 - **Authentication** : JWT
-- **Password Hashing** : Bcrypt
+- **Password Hashing** : Bcrypt for protection
 
 ## 3. Database:
 - **CLASSES :**
-    1. class user
+    1. class User model : to store user data , information
     columns:username,password_hash,email,gender,age,school,id
-    2. class T
+    2. class Task model : 
     columns:your_work,completed,user_id,title,id
-    3. class Note
+    3. class Note model : 
+    columns : user_id , your_note , title_notes , id  , secret
+    4. class Abroad_blogs model : 
+    columns : user_id , university , title_blog , id  , country , blog 
+    5. Model relations :
+    - tasks : user can have tasks , one-to-many relationship which is by `user_id`
+    ```
+    tasks = db.relationship ("Task", backref="User" primaryjoin="User.id == Task.user_id" )
+    ```
+    - notes : user can create and have notes (public/private ) , one-to-many relationship which is by `user_id`
+    ```
+    notes = db.relationship("Note", backref="User", primaryjoin="User.id == Note.user_id" )
+    ```
+    - abroad blogs : users can share their experiences 
+    ```
+    abroad = db.relationship("Abroad_blogs", backref="User", primaryjoin="User.id == Abroad_blogs.user_id")
+    ```
+    6. Methods used : 
+    - set password : hashes password using `bcrypt` 
+    - check password : compares the password to the hashed password in the database for security (authentication)
 
-
-## 3.Endpoints:
+## 4.Endpoints:
 1. **Sign_up** :
 Method : POST ,
 Endpoint : `/signup` 
@@ -108,3 +126,14 @@ Endpoint:`/view_all_blogs`
 5. **View My**:
 Method:GET ,
 Endpoint:`/view_my_blogs`
+
+## 5.Installation: 
+1. clone the repositry 
+2. open backend folder 
+3. run or ```flask run`` in the terminal
+4. the backend will be running on  : ` http://127.0.0.1:3003`
+
+## 6.How to test by postman: 
+1. Download Postman or visit `https://www.postman.com/`
+2. test endpoints and send requests 
+    - put the method (PUT,DELETE,POST,GET) , URL , body and send for response 
