@@ -87,7 +87,7 @@ function Todolist() {
                 body: JSON.stringify({ title })
                 
             });
-            // setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+            fetchTasks()
         } catch (error) {
             console.error('Failed to delete task:', error);
         }
@@ -118,6 +118,7 @@ function Todolist() {
                     console.error("Failed to update task:");
                     return;
                 }
+                fetchTasks()
                 const updatedTask = await response.json();
                 setTasks(prevTasks => prevTasks.map(task => 
                     task.title === editTaskTitle ? { ...task, text: updatedTask.text } : task

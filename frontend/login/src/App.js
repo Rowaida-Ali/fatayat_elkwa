@@ -6,7 +6,7 @@ import HomePage from './components/Homepage/homepage';
 import ProfilePage from './components/profilepage/Profile';
 import StudyAbroad from './components/BlogForm/StudyAbroad';
 // import StudyAbroadlist from './components/BlogForm/StudyAbroadlist';
-// import EditBlog from './components/BlogForm/EditBlog';
+import EditBlog from './components/BlogForm/EditBlog';
 import Todolist from './components/Todolist/Todolist';
 // import MyBlogs from './components/BlogForm/MyBlogs';
 import Navbar from './components/Navbar/Navbar';
@@ -46,7 +46,7 @@ export default function App() {
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/studyabroad" element={<ProtectedRoute><StudyAbroad blogs={blogs} setBlogs={setBlogs} /></ProtectedRoute>} />
           {/* <Route path="/blog-list" element={<ProtectedRoute><StudyAbroadlist blogs={blogs} onDelete={handleDelete} /></ProtectedRoute>} /> */}
-          {/* <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} /> */}
+          <Route path="/edit/:id" element={<ProtectedRoute><EditBlog blogs={blogs} onUpdate={handleUpdate} /></ProtectedRoute>} />
           {/* <Route path='/myblogs' element={<ProtectedRoute><MyBlogs /></ProtectedRoute>} /> */}
           <Route path="/todo" element={<ProtectedRoute><Todolist /></ProtectedRoute>} />
           <Route path='/notes' element={<ProtectedRoute><CreateNote></CreateNote></ProtectedRoute>}></Route>

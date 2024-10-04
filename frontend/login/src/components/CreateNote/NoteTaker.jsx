@@ -31,6 +31,8 @@ const CreateNote = () => {
       // console.log(JSON.stringify({ title,note ,secret}))
       setTitle('')
       setNote('')
+      fetchMyNotes();
+      fetchAllNotes();
       setSecret(true)
     } catch (error){
       console.error("Error",error)
@@ -56,6 +58,7 @@ const CreateNote = () => {
         } else {
             throw new Error('Failed to delete');
         }
+        fetchMyNotes()
     } catch (error) {
         console.error('Failed to delete note:', error);
         setError('Failed to delete note. Please try again later.');
@@ -113,7 +116,7 @@ const fetchAllNotes = async () => {
     });
     
     if (!response.ok) throw new Error('Network response was not ok');
-    
+    fetchAllNotes()
     const data = await response.json();
     console.log(data)
     const Notes= data.map(innerArray => {

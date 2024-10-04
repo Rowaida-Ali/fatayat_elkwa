@@ -47,6 +47,7 @@ useEffect(() => {
       const data = await response.json();
       console.log(data);
       setAllBlogs(data);
+      fetchAllBlogs()
     } catch (error) {
       console.error('Error fetching all blogs:', error);
       setError('Failed to load blogs. Please try again later.');
@@ -103,6 +104,7 @@ useEffect(() => {
         setResources('');
         setUniversity('');
         setTitle('');
+        
       } catch (error) {
         console.error('Error adding blog:', error);
         setError('Failed to add blog. Please try again later.');
@@ -158,7 +160,7 @@ useEffect(() => {
       <div className="blog-list">
         {myBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <ul>Title:{blog.title}</ul>
+            <h3>Title:{blog.title}</h3>
             <ul>University:{blog.university}</ul>
             <ul>Country:{blog.country}</ul>
             <ul>Resources:{blog.resources}</ul>
@@ -172,7 +174,8 @@ useEffect(() => {
       <div className="contaienr">
         {allBlogs.map((blog) => (
           <div key={blog.id} className="blog-item">
-            <ul>Title:{blog.title}</ul>
+             {/* <h3>@{blog.username}</h3> */}
+            <h2>Title:{blog.title}</h2>
             <ul>University:{blog.university}</ul>
             <ul>Country:{blog.country}</ul>
             <ul>Resources:{blog.resources}</ul>

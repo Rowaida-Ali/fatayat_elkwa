@@ -309,7 +309,7 @@ def view_blog():
     for blog in view_blogs:
         user_blog = User.query.filter_by(id=blog.user_id).first()
         blogs_view = {
-            "username": user.username,
+            # "username": user_blog.username,
             "title": blog.title_blog,
             "blog": blog.blog,
             "country": blog.country,
